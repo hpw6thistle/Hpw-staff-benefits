@@ -5,8 +5,8 @@
   const data = window.HAIPAWANG_STORES;
   const stores = Array.isArray(data) ? data : [];
   const elements = { search: $("search"), grade: $("grade"), region: $("region"), owned: $("owned"), cards: $("cards") };
-  const icons = new Map([["餐飲美食", "food"], ["旅遊住宿", "hotel"], ["生活購物", "shop"], ["休閒娛樂", "fun"], ["醫療保健", "health"]]);
-  const categories = ["", ...new Set([...icons.keys(), ...stores.map(s => s.category).filter(Boolean)])];
+  const categoryOrder = ["餐飲美食", "旅遊住宿", "生活購物", "休閒娛樂", "醫療保健"];
+  const categories = ["", ...new Set([...categoryOrder, ...stores.map(s => s.category).filter(Boolean)])];
   const regionOrder = ["台北市", "新北市", "桃園市", "台中市", "高雄市"];
   let category = "";
   let toastTimer;
@@ -87,35 +87,28 @@
   }
 
   function storeCard(store, today) {
-    const kind = icons.get(store.category) || "ticket";
-    const card = el("article", "card " + kind);
+    const card = el("article", "card");
+    const body = el("div", "card-body");
     const head = el("div", "card-head");
-    const symbol = el("div", "category-icon");
-    symbol.append(icon(kind));
-    const title = el("div");
     const tags = el("div", "tags");
-    tags.append(el("span", "tag", store.category), el("span", "tag city", regionName(store.region)));
-    if (store.owned) tags.append(el("span", "tag owned", "集團品牌"));
-    tags.append(el("span", "tag " + (store.grade ? "grade-tag" : "city"), store.grade || "全職級通用"));
-    if (store.demo) tags.append(el("span", "tag city", "範例"));
-    title.append(el("h3", "", store.name), tags);
-    head.append(symbol, title);
+    tags.append(el("span", "tag category", store.category), el("span", "tag", regionName(store.region)));
+    if (store.owned) tags.append(el("span", "tag", "集團品牌"));
+    if (store.demo) tags.append(el("span", "tag demo-tag", "範例"));
+    head.append(tags, el("h2", "", store.name));
 
     const offer = el("div", "offer");
-    offer.append(el("small", "", "員工專屬優惠"), el("strong", "", store.offer));
+    offer.append(el("span", store.grade ? "offer-grade" : "offer-scope", store.grade || "全職級通用"), el("strong", "", store.offer));
     const meta = el("div", "meta");
     const isExpired = Boolean(store.expires && store.expires < today);
-    const expires = el("p", isExpired ? "expired" : "");
+    const expires = el("p", "expiry" + (isExpired ? " expired" : ""));
     if (store.expires) {
       const date = el("time", "", store.expires.replaceAll("-", "/"));
       date.dateTime = store.expires;
-      const label = el("span");
-      label.append(isExpired ? "已到期 · " : "有效至 ", date);
-      expires.append(icon("calendar"), label);
-    } else expires.append(icon("calendar"), "有效期限請洽門市");
+      expires.append(el("span", "", isExpired ? "已到期" : "有效至"), date);
+    } else expires.textContent = "有效期限請洽門市";
     const address = el("address");
     address.append(icon("pin"), store.address || "地址請洽門市");
-    meta.append(expires, address);
+    meta.append(address);
     const phone = String(store.phone || "").trim();
     if (phone) {
       const contact = el("p");
@@ -126,9 +119,11 @@
       meta.append(contact);
     }
 
-    card.append(head, offer, meta);
-    if (store.notes) card.append(el("p", "notes", store.notes));
-    const actions = el("div", "card-actions");
+    body.append(head, offer, meta);
+    if (store.notes) body.append(el("p", "notes", store.notes));
+    const stub = el("div", "ticket-stub");
+    const actions = el("div", "stub-row");
+    actions.append(expires);
     if (store.address && (!store.demo || store.owned)) {
       const link = el("a", "action");
       link.href = mapLink(store);
@@ -138,15 +133,21 @@
       link.append(icon("external"), "Google 地圖");
       actions.append(link);
     }
+    stub.append(actions);
     if (store.code && !isExpired) {
       const label = store.codeLabel || "優惠碼";
+      const codeRow = el("div", "stub-row code-row");
+      const codeInfo = el("div", "code-info");
+      const isCode = label === "優惠碼" || /^[0-9A-Za-z][0-9A-Za-z._-]*$/.test(store.code);
+      codeInfo.append(el("span", "", label), el(isCode ? "code" : "span", "code-value", store.code));
       const copy = el("button", "action copy");
       copy.type = "button";
       copy.append(icon("copy"), label === "優惠碼" ? "複製代碼" : "複製" + label);
       copy.addEventListener("click", () => copyText(store.code, copy, label));
-      actions.append(copy);
+      codeRow.append(codeInfo, copy);
+      stub.append(codeRow);
     }
-    if (actions.childElementCount) card.append(actions);
+    card.append(body, stub);
     return card;
   }
 
@@ -172,7 +173,9 @@
     const fragment = document.createDocumentFragment();
     filtered.forEach(store => fragment.append(storeCard(store, today)));
     elements.cards.replaceChildren(fragment);
-    $("count").textContent = "顯示 " + filtered.length + " 間商店，共 " + applicable.size + " 間適用";
+    $("count").textContent = filtered.length === applicable.size
+      ? filtered.length + " 間商店"
+      : filtered.length + " / " + applicable.size + " 間商店";
     $("clear-top").hidden = !(terms.length || category || region || owned || grade);
     $("empty").hidden = filtered.length > 0;
     $("categories").querySelectorAll("button").forEach(button => {
@@ -217,7 +220,7 @@
     const chip = el("button", "chip");
     chip.type = "button";
     chip.value = label;
-    chip.append(icon(label ? icons.get(label) || "ticket" : "grid"), label || "全部類別");
+    chip.textContent = label || "全部類別";
     chip.addEventListener("click", () => { category = label; render(); });
     $("categories").append(chip);
   }
