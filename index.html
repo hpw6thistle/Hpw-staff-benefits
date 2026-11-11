@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="依店名、優惠、類別和地區查詢海霸王員工特約商店。">
+  <meta name="theme-color" content="#fffaf8">
+  <title>員工特約商店｜海霸王員工福利站</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="data.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M19 10c0 5-7 10-7 10S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v15m-5-5 5 5 5-5"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M9 6V4h6v2m-2 5h4m-4 4h4m-11 1c1-2 4-2 5 0"/><circle cx="8.5" cy="11.5" r="1.5"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></symbol>
+  <symbol id="i-food" viewBox="0 0 24 24"><path d="M5 3v6a3 3 0 0 0 6 0V3M8 3v18m11 0V3c-3 2-4 6-4 10h4"/></symbol>
+  <symbol id="i-hotel" viewBox="0 0 24 24"><path d="M3 18V6m0 8h18v6M3 18h18m-1-4v-2a3 3 0 0 0-3-3h-6v5"/><circle cx="7" cy="11" r="1.5"/></symbol>
+  <symbol id="i-shop" viewBox="0 0 24 24"><path d="M5 8h14l1 12H4L5 8Zm4 2V6a3 3 0 1 1 6 0v4"/></symbol>
+  <symbol id="i-health" viewBox="0 0 24 24"><path d="M20.2 5.6a5 5 0 0 0-7.1 0L12 6.7l-1.1-1.1a5 5 0 0 0-7.1 7.1l1.1 1.1L12 21l8.2-8.3a5 5 0 0 0 0-7.1Z"/><path d="M7 12h3l1-2 2 4 1-2h3"/></symbol>
+  <symbol id="i-fun" viewBox="0 0 24 24"><path d="m12 3 2.6 5.6 6.2.7-4.6 4.3 1.3 6.1-5.5-3-5.5 3 1.3-6.1-4.6-4.3 6.2-.7L12 3Z"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 6h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4V6Zm12 2v1m0 2.5v1m0 2.5v1"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="14" rx="2"/><path d="M8 4v4m8-4v4M4 10h16"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M13 5h6v6m0-6-8 8m6 0v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M7 3h3l1 5-2 1a14 14 0 0 0 6 6l1-2 5 1v3c0 2-1 4-4 4C10 20 4 14 3 7c0-3 2-4 4-4Z"/></symbol>
+</svg>
+  <a class="skip" href="#main">跳至主要內容</a>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="./index.html"><img src="assets/mark.svg" alt="" width="40" height="40"><span><strong>海霸王</strong><small>員工福利站</small></span></a>
+      <a class="help" href="#guide"><svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg> 使用規範</a>
+    </div>
+  </header>
+  <main id="main" class="shell">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <span class="hero-kicker"><span></span> 海霸王集團 · 員工福利</span>
+        <h1 id="page-title">員工特約商店</h1>
+        <p>從集團餐廳、城市商旅到生活好店，<br class="wide">查找適合今天的優惠。</p>
+        <a class="hero-link" href="#directory">查詢優惠 <svg class="icon" aria-hidden="true"><use href="#i-down"></use></svg></a>
+      </div>
+      <img class="hero-art" src="assets/tickets.svg" alt="" width="540" height="300">
+    </section>
+
+    <section id="guide" class="guide" aria-labelledby="guide-title">
+      <div class="guide-icon"><svg class="icon" aria-hidden="true"><use href="#i-badge"></use></svg></div>
+      <div><h2 id="guide-title">員工優惠使用規範</h2><p>結帳前請主動出示實體或電子員工識別證。訂位或訂房時，請先向門市確認適用日期與優惠條件。</p></div>
+      <span id="demo" class="demo" hidden>範例資料 · 不可兌換</span>
+    </section>
+
+    <section id="directory" aria-labelledby="directory-title">
+      <div class="section-title"><div><p class="eyebrow">STORE DIRECTORY</p><h2 id="directory-title">查找特約商店</h2></div><button type="button" class="text-button" id="clear-top" hidden>清除篩選條件</button></div>
+      <div class="filters">
+        <div class="filter-row">
+          <div class="search-box"><svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg><label class="sr-only" for="search">搜尋店名、優惠或地址</label><input id="search" type="search" placeholder="搜尋店名、優惠或地址" autocomplete="off" maxlength="120"></div>
+          <div class="grade-box">
+            <label for="grade"><svg class="icon" aria-hidden="true"><use href="#i-badge"></use></svg> 員工職級</label>
+            <select id="grade" aria-describedby="grade-help"><option value="">全職級通用</option></select>
+            <svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg>
+          </div>
+          <div class="region-box"><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg><label class="sr-only" for="region">依縣市篩選</label><select id="region"><option value="">全部地區</option></select><svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg></div>
+        </div>
+        <p class="grade-help" id="grade-help">選擇職級可查看專屬優惠。店家若未提供該職級的專屬方案，會顯示通用優惠。</p>
+        <div id="categories" class="categories" role="group" aria-label="依商店類別篩選"></div>
+      </div>
+      <div class="results-bar"><p id="count" role="status">正在載入商店…</p><label class="check"><input type="checkbox" id="owned"> 只看集團品牌</label></div>
+      <noscript><p class="empty">請啟用 JavaScript 以使用商店查詢。</p></noscript>
+      <div id="cards" class="cards"></div>
+      <div id="empty" class="empty" hidden><svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg><h3 id="empty-title">找不到符合條件的特約商店</h3><p id="empty-text">試試其他關鍵字，或清除篩選條件查看全部商店。</p><button type="button" class="primary" id="clear-empty">清除篩選條件</button></div>
+    </section>
+  </main>
+  <footer class="footer"><div class="shell footer-inner"><span>海霸王 · 員工福利站</span><a href="admin.html">資料維護</a></div></footer>
+  <div id="toast" class="toast" role="status" aria-atomic="true"></div>
+  <dialog id="copy-dialog"><form method="dialog"><h2>手動複製</h2><p>瀏覽器未允許自動複製，請複製以下文字。</p><textarea id="copy-value" readonly aria-label="要複製的文字"></textarea><button class="primary">關閉</button></form></dialog>
+</body>
+</html>
