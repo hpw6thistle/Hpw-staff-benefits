@@ -92,6 +92,13 @@ body:has(#landing-view:not([hidden])) {
   background: radial-gradient(circle at center, rgba(250, 248, 245, 0.88) 0%, rgba(242, 238, 232, 0.55) 100%);
 }
 .hero-inner { position: relative; z-index: 1; min-width: 0; }
+.hero-eyebrow {
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 400;
+  letter-spacing: .16em;
+}
 .hero-banner h1 {
   font-family: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
   font-size: clamp(32px, 6vw, 64px);
