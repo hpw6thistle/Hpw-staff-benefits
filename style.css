@@ -60,6 +60,7 @@ code, time, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums
 .brand small { display: block; color: var(--muted); font-size: .75rem; }
 .help { display: inline-flex; align-items: center; min-height: 44px; white-space: nowrap; font-size: .8rem; font-weight: 700; }
 .nav-links { display: flex; gap: 16px; align-items: center; }
+body:has(#landing-view:not([hidden])) .nav-wish { display: none; }
 
 html { scroll-behavior: smooth; }
 
@@ -106,6 +107,12 @@ html { scroll-behavior: smooth; }
 .no-js { margin-top: 12px; }
 .quick-section { padding-top: var(--module-gap); }
 #quick-title { scroll-margin-top: 24px; }
+.wish-section {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+  gap: 12px; margin-top: var(--module-gap); padding-top: 20px; border-top: 1px solid var(--rule);
+}
+.wish-section h2 { font-size: 1.25rem; }
+.wish-section p { margin-top: 4px; color: var(--muted); font-size: .9rem; }
 .quick-section h2, .directory-heading h1 { font-size: clamp(1.35rem, 3vw, 1.72rem); letter-spacing: .045em; }
 .quick-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
 .quick-tile {
