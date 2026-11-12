@@ -57,7 +57,8 @@ code, time, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums
 .brand { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink); white-space: nowrap; }
 .brand img { display: block; }
 .brand strong { font-size: 1.06rem; letter-spacing: .09em; }
-.brand-seal { display: grid; place-items: center; width: 31px; height: 31px; color: var(--paper); background: var(--stamp); font: 700 1.03rem/1 var(--sans); }
+.brand-logo { display: block; position: relative; flex: none; width: 63px; height: 36px; overflow: hidden; mix-blend-mode: multiply; }
+.brand-logo img { position: absolute; max-width: none; width: 127.5px; height: 111px; left: -33px; top: -39px; filter: contrast(1.16); }
 .brand-area { padding-left: 10px; border-left: 1px solid var(--rule); font-size: .83rem; color: var(--muted); }
 .brand small { display: block; color: var(--muted); font-size: .75rem; }
 .help { display: inline-flex; align-items: center; min-height: 44px; white-space: nowrap; font-size: .8rem; font-weight: 700; }
@@ -277,8 +278,6 @@ td:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
   .brand { gap: 5px; }
   .brand strong { font-size: .88rem; }
   .brand-area { margin-left: 3px; padding-left: 7px; font-size: .75rem; }
-  .brand-seal { width: 26px; height: 26px; font-size: .9rem; }
-  .brand img { width: 25px; height: 25px; }
   .nav-links { gap: 9px; }
   .hero-actions { margin-top: 22px; }
   .quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
