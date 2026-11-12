@@ -50,6 +50,7 @@ code, time, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums
 .skip:focus { position: fixed; z-index: 3; top: 8px; left: 8px; background: var(--paper); padding: 8px 12px; }
 .shell { width: min(1160px, calc(100% - 64px)); margin-inline: auto; }
 .topbar { border-top: 3px solid var(--stamp); border-bottom: 1px solid var(--rule); background: var(--paper); }
+#site-chrome .topbar { border: 0; background: transparent; }
 .topbar-inner, .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 14px; }
 .topbar-inner { min-height: 69px; }
 .brand { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink); white-space: nowrap; }
@@ -59,36 +60,49 @@ code, time, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums
 .brand-area { padding-left: 10px; border-left: 1px solid var(--rule); font-size: .83rem; color: var(--muted); }
 .brand small { display: block; color: var(--muted); font-size: .75rem; }
 .help { display: inline-flex; align-items: center; min-height: 44px; white-space: nowrap; font-size: .8rem; font-weight: 700; }
+#guide-link { padding: 0; border: 0; background: transparent; color: var(--stamp-dark); text-decoration: none; }
+#guide-link:hover, .hero-scroll:hover { color: var(--stamp); }
 .nav-links { display: flex; gap: 16px; align-items: center; }
 body:has(#landing-view:not([hidden])) .nav-wish { display: none; }
 
 html { scroll-behavior: smooth; }
 
+body:has(#landing-view:not([hidden])) {
+  background: radial-gradient(circle at center, #FFFDFB 0%, #EFECE6 100%) top center / 100% 100vh no-repeat;
+  background-size: 100% 100svh;
+}
 .hero-banner {
   position: relative; isolation: isolate; display: grid; place-items: center;
-  min-height: calc(100vh - var(--site-chrome-height, 100px));
-  min-height: calc(100svh - var(--site-chrome-height, 100px));
-  padding-block: clamp(76px, 11svh, 96px); text-align: center; background-color: #F4EDE2;
-  /* 上傳品牌照片後可取消下一行註解，並確認標題對比。 */
-  /* background-image: url('assets/hero-bg.jpg'); */
-  background-size: cover; background-position: center;
+  min-height: calc(100vh - var(--site-chrome-height, 69px));
+  min-height: calc(100svh - var(--site-chrome-height, 69px));
+  padding-block: clamp(76px, 11svh, 96px); text-align: center;
   overflow: clip;
 }
+.hero-banner::before, .hero-banner::after {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  width: clamp(42px, 14vw, 215px);
+  height: clamp(40px, 13vh, 138px);
+}
+.hero-banner::before {
+  inset-block-start: 13%; inset-inline-end: 7%;
+  background: #DDD5C72E;
+  border-block-start: 1px solid #BAAB963D;
+  border-inline-end: 1px solid #BAAB963D;
+}
+.hero-banner::after {
+  inset-block-end: 15%; inset-inline-start: 7%;
+  background: #DCDDD42B;
+  border-block-end: 1px solid #A8AB9D40;
+  border-inline-start: 1px solid #A8AB9D40;
+}
 .hero-inner { position: relative; z-index: 1; min-width: 0; }
-.hero-banner h1 { font-size: clamp(48px, 6vw, 64px); letter-spacing: .015em; line-height: 1.2; font-weight: 800; }
+.hero-banner h1 {
+  font-family: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  font-size: clamp(32px, 6vw, 64px);
+  font-weight: 500; letter-spacing: .08em; line-height: 1.28;
+}
 .hero-banner h1 span { display: inline-block; }
 .hero-accent { color: var(--stamp); }
-.hero-art {
-  position: absolute; width: min(80vw, 64svh, 560px); aspect-ratio: 1;
-  color: #8C1D2421; pointer-events: none;
-}
-.hero-art::before, .hero-art::after, .hero-art span { position: absolute; }
-.hero-art::before, .hero-art::after { content: ""; border: 1px solid currentColor; border-radius: 50%; }
-.hero-art::before { inset: 5% 4% 9% 10%; }
-.hero-art::after { inset: 18% 17% 22% 23%; color: #B48A3E30; }
-.hero-art-square { inset: 23% 22% 27% 28%; border: 1px solid currentColor; transform: rotate(45deg); }
-.hero-art-axis { inset: 48% 0 auto 0; border-top: 1px solid #B48A3E30; }
-.hero-art-dot { inset: 48% 17% auto auto; width: 7px; height: 7px; background: var(--stamp); border-radius: 50%; opacity: .35; transform: translate(50%, -50%); }
 .hero-intro { margin-top: 17px; color: var(--muted); font-size: clamp(.94rem, 1.5vw, 1.06rem); }
 .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
 .hero-actions .hero-cta, .landing-grade select, .landing-grade-form .action { min-height: 49px; padding-inline: 16px; font-size: .91rem; }
@@ -96,7 +110,7 @@ html { scroll-behavior: smooth; }
 .hero-scroll {
   position: absolute; z-index: 1; bottom: 32px; justify-self: center;
   display: flex; align-items: center; gap: 8px; min-height: 44px;
-  color: var(--stamp-dark); font-size: .82rem; text-underline-offset: .28em;
+  color: var(--muted); font-size: 13px; text-decoration: none;
 }
 .hero-scroll span { font-size: 1.15rem; line-height: 1; }
 .landing-grade-form { display: flex; flex-wrap: wrap; gap: 8px; width: min(100%, 330px); margin-top: 20px; }
@@ -164,12 +178,6 @@ html { scroll-behavior: smooth; }
 }
 .chip:hover { border-color: var(--stamp); color: var(--stamp-dark); background: var(--stamp-paper); }
 .chip[aria-pressed=true] { background: var(--stamp-paper); border-color: var(--stamp); color: var(--stamp-dark); }
-.announcement {
-  padding-block: 4px; border-bottom: 1px solid var(--rule);
-  background: var(--stamp-paper); color: var(--muted); font-size: .75rem;
-}
-.announcement:focus-visible { outline-offset: -2px; }
-.announcement-inner { display: flex; justify-content: space-between; gap: 0 14px; flex-wrap: wrap; }
 .results-bar, .result-tools { display: flex; align-items: center; flex-wrap: wrap; }
 .results-bar { justify-content: space-between; gap: 0 10px; min-height: 47px; margin-top: 5px; color: var(--muted); font-size: .82rem; }
 .result-tools { gap: 0 14px; }
@@ -241,6 +249,8 @@ button:disabled { opacity: .55; cursor: default; }
 .toast:empty { visibility: hidden; }
 dialog { width: min(440px, calc(100% - 30px)); padding: var(--card-padding); border: 1px solid var(--rule-dark); border-radius: var(--radius); background: var(--paper); color: var(--ink); box-shadow: var(--surface-shadow); }
 dialog::backdrop { background: #231F2080; }
+#guide-dialog h2 { font-size: 1.15rem; }
+#guide-dialog p { margin-block: 8px 16px; color: var(--muted); }
 dialog textarea { display: block; width: 100%; min-height: 70px; margin: 8px 0 12px; font-family: var(--mono); }
 
 /* The HR page uses the same paper, type and rules. */

@@ -262,7 +262,7 @@
     displayView(next, { focus });
   }
 
-  // 導覽列或公告換行時，首屏仍以實際高度扣除頁首。
+  // 首屏高度扣除實際的頁首高度。
   if ("ResizeObserver" in window) {
     const chrome = $("site-chrome");
     const fitPage = () => {
@@ -308,10 +308,7 @@
 
   bindLink("home-link", () => navigate("home"));
   bindLink("enter-search", () => navigate("search", { filters: {} }));
-  bindLink("guide-link", () => {
-    $("guide").focus({ preventScroll: true });
-    $("guide").scrollIntoView({ block: "start" });
-  });
+  $("guide-link").addEventListener("click", () => $("guide-dialog").showModal());
   const landingGrade = $("landing-grade");
   const landingSubmit = $("landing-grade-submit");
   landingGrade.addEventListener("change", () => {
