@@ -352,7 +352,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.icepapa.com.tw/"
   },
   {
-    "id": "hpw2026022",
+    "id": "hpw2026001",
     "name": "海霸王｜中山店",
     "category": "餐飲美食",
     "region": "台北市",
@@ -368,7 +368,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.hpw.com.tw/"
   },
   {
-    "id": "hpw2026023",
+    "id": "hpw2026002",
     "name": "海霸王｜長安店",
     "category": "餐飲美食",
     "region": "台北市",
@@ -384,7 +384,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.hpw.com.tw/"
   },
   {
-    "id": "hpw2026024",
+    "id": "hpw2026003",
     "name": "海霸王｜蘆洲店",
     "category": "餐飲美食",
     "region": "新北市",
@@ -400,7 +400,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.hpw.com.tw/"
   },
   {
-    "id": "hpw2026025",
+    "id": "hpw2026004",
     "name": "海霸王｜海山店",
     "category": "餐飲美食",
     "region": "新北市",
@@ -416,7 +416,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.hpw.com.tw/"
   },
   {
-    "id": "hpw2026026",
+    "id": "hpw2026005",
     "name": "海霸王｜航空館",
     "category": "餐飲美食",
     "region": "桃園市",
@@ -432,7 +432,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.hpw.com.tw/"
   },
   {
-    "id": "hpw2026027",
+    "id": "hpw2026006",
     "name": "海霸王｜真愛館",
     "category": "餐飲美食",
     "region": "高雄市",
@@ -448,7 +448,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.hpw.com.tw/"
   },
   {
-    "id": "hpw2026028",
+    "id": "hpw2026007",
     "name": "甲天下｜中山店",
     "category": "餐飲美食",
     "region": "台北市",
@@ -464,7 +464,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.jiatiensha.com/"
   },
   {
-    "id": "hpw2026029",
+    "id": "hpw2026008",
     "name": "甲天下｜長安店",
     "category": "餐飲美食",
     "region": "台北市",
@@ -480,7 +480,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.jiatiensha.com/"
   },
   {
-    "id": "hpw2026030",
+    "id": "hpw2026009",
     "name": "甲天下｜蘆洲店",
     "category": "餐飲美食",
     "region": "新北市",
@@ -496,7 +496,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.jiatiensha.com/"
   },
   {
-    "id": "hpw2026031",
+    "id": "hpw2026010",
     "name": "甲天下｜海山店",
     "category": "餐飲美食",
     "region": "新北市",
@@ -512,7 +512,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.jiatiensha.com/"
   },
   {
-    "id": "hpw2026032",
+    "id": "hpw2026011",
     "name": "打狗霸｜昆明店",
     "category": "餐飲美食",
     "region": "台北市",
@@ -528,7 +528,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.takao1972.com/"
   },
   {
-    "id": "hpw2026033",
+    "id": "hpw2026012",
     "name": "打狗霸｜德立莊店",
     "category": "餐飲美食",
     "region": "台北市",
@@ -544,7 +544,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.takao1972.com/"
   },
   {
-    "id": "hpw2026034",
+    "id": "hpw2026013",
     "name": "打狗霸｜博愛店",
     "category": "餐飲美食",
     "region": "高雄市",
@@ -560,7 +560,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.takao1972.com/"
   },
   {
-    "id": "hpw2026035",
+    "id": "hpw2026014",
     "name": "打狗霸｜駁二店",
     "category": "餐飲美食",
     "region": "高雄市",
@@ -576,7 +576,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.takao1972.com/"
   },
   {
-    "id": "hpw2026036",
+    "id": "hpw2026015",
     "name": "前鎮水產｜昆明店",
     "category": "餐飲美食",
     "region": "台北市",
@@ -592,7 +592,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.takaosuper.com/"
   },
   {
-    "id": "hpw2026037",
+    "id": "hpw2026016",
     "name": "前鎮水產｜西門店",
     "category": "餐飲美食",
     "region": "台北市",
@@ -608,7 +608,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.takaosuper.com/"
   },
   {
-    "id": "hpw2026038",
+    "id": "hpw2026017",
     "name": "魅麗海｜德立莊店",
     "category": "餐飲美食",
     "region": "台北市",
@@ -624,7 +624,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.midtownrichardson.com/"
   },
   {
-    "id": "hpw2026039",
+    "id": "hpw2026018",
     "name": "魅麗海｜真愛店",
     "category": "餐飲美食",
     "region": "高雄市",
@@ -640,7 +640,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.citysuites.com.tw/"
   },
   {
-    "id": "hpw2026040",
+    "id": "hpw2026019",
     "name": "SKYBAR｜真愛店",
     "category": "餐飲美食",
     "region": "高雄市",
@@ -656,7 +656,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.citysuites.com.tw/"
   },
   {
-    "id": "hpw2026041",
+    "id": "hpw2026020",
     "name": "ICE PAPA｜西門店",
     "category": "餐飲美食",
     "region": "台北市",
@@ -672,7 +672,7 @@ window.HAIPAWANG_STORES = [
     "website": "https://www.icepapa.com.tw/"
   },
   {
-    "id": "hpw2026042",
+    "id": "hpw2026021",
     "name": "ICE PAPA｜昆明店",
     "category": "餐飲美食",
     "region": "台北市",

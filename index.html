@@ -24,9 +24,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&amp;family=Noto+Sans+TC:wght@400..800&amp;display=swap">
   <link rel="stylesheet" href="style.css?v=hero-title-1">
-  <script defer src="data.js?v=csv-rules-1"></script>
+  <script defer src="data.js?v=store-grades-1"></script>
   <script defer src="auth.js?v=perks-13"></script>
-  <script defer src="script.js?v=csv-rules-2"></script>
+  <script defer src="script.js?v=store-grades-1"></script>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
@@ -87,7 +87,7 @@
           </div>
           <div class="select-box"><label class="sr-only" for="region">依縣市篩選</label><select id="region"><option value="">全部地區</option></select><svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg></div>
         </div>
-        <p class="sr-only" id="grade-help">沒有職級專屬方案時，顯示通用優惠。</p>
+        <p class="sr-only" id="grade-help">選擇全部可查看同一門市的各職級優惠。指定職級沒有適用方案時，顯示全職級適用優惠。</p>
         <div id="categories" class="categories" role="group" aria-label="依商店類別篩選"></div>
       </div>
       <div class="results-bar"><p id="count" role="status">正在載入商店…</p><div class="result-tools"><button type="button" class="text-button" id="clear-top" hidden>清除篩選條件</button><label class="check"><input type="checkbox" id="owned"> 只看集團品牌</label></div></div>

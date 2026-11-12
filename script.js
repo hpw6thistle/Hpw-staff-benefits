@@ -61,7 +61,19 @@
     return url.href;
   }
 
-  function storeCard(store, today) {
+  function offerExpiry(store, today) {
+    const expired = Boolean(store.expires && store.expires < today);
+    const expiry = el("p", "expiry" + (expired ? " expired" : ""));
+    if (store.expires) {
+      const date = el("time", "", store.expires.replaceAll("-", "/"));
+      date.dateTime = store.expires;
+      expiry.append(el("span", "", expired ? "已到期" : "有效至"), date);
+    } else expiry.textContent = "有效期限請洽門市";
+    return expiry;
+  }
+
+  function storeCard(offers, today) {
+    const [store] = offers;
     const card = el("article", "card");
     const body = el("div", "card-body");
     const head = el("div", "card-head");
@@ -86,16 +98,17 @@
     }
     head.append(tags, heading);
 
-    const offer = el("div", "offer");
-    offer.append(el("span", store.grade ? "offer-grade" : "offer-scope", store.grade || "全職級通用"), el("strong", "", store.offer));
+    const sharedExpiry = offers.every(entry => entry.expires === store.expires);
+    const sharedNotes = offers.every(entry => entry.notes === store.notes);
+    body.append(head);
+    for (const entry of offers) {
+      const offer = el("div", "offer");
+      offer.append(el("span", "offer-grade", entry.grade || "全職級適用"), el("strong", "", entry.offer));
+      if (!sharedExpiry) offer.append(offerExpiry(entry, today));
+      if (!sharedNotes && entry.notes) offer.append(el("p", "notes", entry.notes));
+      body.append(offer);
+    }
     const meta = el("div", "meta");
-    const isExpired = Boolean(store.expires && store.expires < today);
-    const expires = el("p", "expiry" + (isExpired ? " expired" : ""));
-    if (store.expires) {
-      const date = el("time", "", store.expires.replaceAll("-", "/"));
-      date.dateTime = store.expires;
-      expires.append(el("span", "", isExpired ? "已到期" : "有效至"), date);
-    } else expires.textContent = "有效期限請洽門市";
     const address = el("address");
     address.append(icon("pin"), store.address || "地址請洽門市");
     meta.append(address);
@@ -109,11 +122,11 @@
       meta.append(contact);
     }
 
-    body.append(head, offer, meta);
+    body.append(meta);
     const bottom = el("div", "card-bottom");
     const stub = el("div", "ticket-stub");
     const actions = el("div", "stub-row");
-    actions.append(expires);
+    if (sharedExpiry) actions.append(offerExpiry(store, today));
     if (store.address && (!store.demo || store.owned)) {
       const link = el("a", "action");
       link.href = mapLink(store);
@@ -124,10 +137,26 @@
       actions.append(link);
     }
     stub.append(actions);
-    if (store.notes) bottom.append(el("p", "notes", store.notes));
-    bottom.append(stub);
+    if (sharedNotes && store.notes) bottom.append(el("p", "notes", store.notes));
+    if (actions.childElementCount) bottom.append(stub);
     card.append(body, bottom);
     return card;
+  }
+
+  function applicableOffers(grade, today) {
+    const grouped = new Map();
+    for (const store of stores) {
+      const id = store.id.toLowerCase();
+      if (!grouped.has(id)) grouped.set(id, []);
+      grouped.get(id).push(store);
+    }
+    if (!grade) return [...grouped.values()];
+    return [...grouped.values()].flatMap(offers => {
+      const specific = offers.find(store => store.grade === grade && (!store.expires || store.expires >= today));
+      const universal = offers.find(store => !store.grade);
+      const selected = specific || universal;
+      return selected ? [[selected]] : [];
+    });
   }
 
   function render() {
@@ -136,28 +165,21 @@
     const owned = elements.owned.checked;
     const today = taipeiToday();
     const grade = elements.grade.value === "all" ? "" : elements.grade.value;
-    const applicable = new Map();
-    // 先決定每間店適用的優惠，再搜尋。通用優惠不會蓋過所選職級的優惠。
-    for (const store of stores) {
-      const targeted = grade && store.grade === grade && (!store.expires || store.expires >= today);
-      const current = applicable.get(store.id);
-      if (targeted || (!store.grade && (!current || (!grade && current.grade))) || (!grade && !current)) {
-        applicable.set(store.id, store);
-      }
-    }
-    const filtered = [...applicable.values()].filter(store => {
+    const applicable = applicableOffers(grade, today);
+    const filtered = applicable.filter(offers => {
+      const [store] = offers;
       if (!matchesCategory(store, category)) return false;
       if (region && regionName(store.region) !== region) return false;
       if (owned && !store.owned) return false;
-      const haystack = normalize([store.name, store.offer, store.address, store.notes, store.region].join(" "));
+      const haystack = normalize([store.name, store.address, store.region, ...offers.flatMap(offer => [offer.offer, offer.notes])].join(" "));
       return terms.every(term => haystack.includes(term));
     });
     const fragment = document.createDocumentFragment();
-    filtered.forEach(store => fragment.append(storeCard(store, today)));
+    filtered.forEach(offers => fragment.append(storeCard(offers, today)));
     elements.cards.replaceChildren(fragment);
-    $("count").textContent = filtered.length === applicable.size
+    $("count").textContent = filtered.length === applicable.length
       ? "共 " + filtered.length + " 間商店"
-      : "找到 " + filtered.length + " 間，共 " + applicable.size + " 間商店";
+      : "找到 " + filtered.length + " 間，共 " + applicable.length + " 間商店";
     $("clear-top").hidden = !(terms.length || category || region || owned || grade);
     $("empty").hidden = filtered.length > 0;
     $("categories").querySelectorAll("button").forEach(button => {
@@ -242,7 +264,7 @@
 
   function renderQuickLinks() {
     for (const entry of quickCategories) {
-      const total = new Set(stores.filter(store => entry.owned ? store.owned : matchesCategory(store, entry.category)).map(store => store.id)).size;
+      const total = new Set(stores.filter(store => entry.owned ? store.owned : matchesCategory(store, entry.category)).map(store => store.id.toLowerCase())).size;
       const link = el("a", "quick-tile");
       link.href = "#search";
       const label = el("span", "quick-tile-label");
