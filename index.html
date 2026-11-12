@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&amp;family=Noto+Sans+TC:wght@400..800&amp;display=swap">
-  <link rel="stylesheet" href="style.css?v=perks-4">
+  <link rel="stylesheet" href="style.css?v=perks-5">
   <script defer src="data.js"></script>
-  <script defer src="script.js?v=perks-4"></script>
+  <script defer src="script.js?v=perks-5"></script>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
@@ -29,6 +29,7 @@
   <symbol id="i-phone" viewBox="0 0 24 24"><path d="M7 3h3l1 5-2 1a14 14 0 0 0 6 6l1-2 5 1v3c0 2-1 4-4 4C10 20 4 14 3 7c0-3 2-4 4-4Z"/></symbol>
 </svg>
   <a class="skip" href="#main">跳至主要內容</a>
+  <div id="site-chrome">
   <header class="topbar">
     <div class="shell topbar-inner">
       <a class="brand" id="home-link" href="#home">
@@ -45,22 +46,16 @@
       <p>結帳前出示員工證。訂位、訂房時先確認優惠。</p>
     </div>
   </div>
+  </div>
   <main id="main" tabindex="-1">
     <div id="landing-view">
-      <section class="shell hero-banner" aria-labelledby="landing-title">
-        <div class="hero-inner">
-          <h1 id="landing-title" tabindex="-1">集團與特約優惠</h1>
-          <p class="hero-intro">查詢餐飲、住宿與生活優惠。</p>
+      <section class="hero-banner" aria-labelledby="landing-title">
+        <div class="shell hero-inner">
+          <h1 id="landing-title" tabindex="-1"><span>集團與</span><span class="hero-accent">特約優惠</span></h1>
+          <p class="hero-intro">查詢餐飲、住宿與生活專屬優惠。</p>
           <div class="hero-actions">
             <a class="primary hero-cta" id="enter-search" href="#search">進入特約商店查詢 <span aria-hidden="true">→</span></a>
-            <form class="landing-grade-form" id="landing-grade-form">
-              <div class="landing-grade">
-                <label class="sr-only" for="landing-grade">選擇職級</label>
-                <select id="landing-grade" required disabled><option value="" selected disabled>選擇職級</option></select>
-                <svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg>
-              </div>
-              <button class="action" id="landing-grade-submit" type="submit" disabled>查看優惠</button>
-            </form>
+            <a class="action hero-cta" href="#quick-title">依類別瀏覽 <span aria-hidden="true">↓</span></a>
           </div>
           <noscript><p class="no-js">請啟用 JavaScript 以查詢。</p></noscript>
         </div>
@@ -69,10 +64,19 @@
           <span class="hero-art-axis"></span>
           <span class="hero-art-dot"></span>
         </div>
+        <a class="hero-scroll" href="#quick-title">向下探索分類 <span aria-hidden="true">↓</span></a>
       </section>
       <section class="shell quick-section" aria-labelledby="quick-title">
-        <h2 id="quick-title">依類別查詢</h2>
+        <h2 id="quick-title" tabindex="-1">依類別查詢</h2>
         <div id="quick-categories" class="quick-grid"></div>
+        <form class="landing-grade-form" id="landing-grade-form">
+          <div class="landing-grade">
+            <label class="sr-only" for="landing-grade">選擇職級</label>
+            <select id="landing-grade" required disabled><option value="" selected disabled>選擇職級</option></select>
+            <svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg>
+          </div>
+          <button class="action" id="landing-grade-submit" type="submit" disabled>查看優惠</button>
+        </form>
       </section>
     </div>
 

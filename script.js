@@ -233,8 +233,13 @@
     $("directory").hidden = next === "home";
     document.title = (next === "search" ? "特約商店查詢" : "員工專屬福利手冊") + "｜海霸王";
     if (focus) {
-      window.scrollTo(0, 0);
-      $(next === "search" ? "search-title" : "landing-title").focus({ preventScroll: true });
+      if (next === "home" && window.location.hash === "#quick-title") {
+        $("quick-title").focus({ preventScroll: true });
+        $("quick-title").scrollIntoView({ behavior: "instant" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "instant" });
+        $(next === "search" ? "search-title" : "landing-title").focus({ preventScroll: true });
+      }
     }
   }
 
@@ -252,8 +257,19 @@
 
   function restoreView(focus) {
     const next = viewFromHash();
+    if (next === "home" && view === "home") return;
     if (next === "search") applyFilters(window.history.state?.benefits);
     displayView(next, { focus });
+  }
+
+  // 導覽列或公告換行時，首屏仍以實際高度扣除頁首。
+  if ("ResizeObserver" in window) {
+    const chrome = $("site-chrome");
+    const fitPage = () => {
+      document.documentElement.style.setProperty("--site-chrome-height", chrome.getBoundingClientRect().height + "px");
+    };
+    fitPage();
+    new window.ResizeObserver(fitPage).observe(chrome);
   }
 
   function bindLink(id, action) {
