@@ -5,16 +5,14 @@
   const data = window.HAIPAWANG_STORES;
   const stores = Array.isArray(data) ? data : [];
   const elements = { search: $("keyword"), grade: $("grade"), region: $("region"), owned: $("owned"), cards: $("cards") };
-  const combinedCategory = "休閒醫療";
-  const leisureCategories = new Set(["休閒娛樂", "醫療保健", "休閒與醫療", combinedCategory]);
-  const categoryOrder = ["餐飲美食", "旅遊住宿", "生活購物", combinedCategory];
+  const leisureCategories = new Set(["休閒娛樂", "醫療保健", "休閒與醫療", "休閒醫療"]);
+  const categoryOrder = ["餐飲美食", "旅遊住宿", "生活購物"];
   const categories = ["", ...new Set([...categoryOrder, ...stores.map(s => displayCategory(s.category)).filter(Boolean)])];
   const quickCategories = [
-    { name: "集團品牌專屬", owned: true, icon: "brand" },
+    { name: "集團品牌", owned: true, icon: "brand" },
     { name: "餐飲美食", category: "餐飲美食", icon: "dining" },
     { name: "旅遊住宿", category: "旅遊住宿", icon: "stay" },
     { name: "生活購物", category: "生活購物", icon: "shopping" },
-    { name: combinedCategory, category: combinedCategory, icon: "wellness" },
   ];
   const regionOrder = ["台北市", "新北市", "桃園市", "台中市", "高雄市"];
   let category = "";
@@ -48,7 +46,7 @@
   }
 
   function displayCategory(value) {
-    return leisureCategories.has(value) ? combinedCategory : value;
+    return leisureCategories.has(value) ? "生活購物" : value;
   }
 
   function matchesCategory(store, selected) {

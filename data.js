@@ -4,7 +4,7 @@
  * id：門市的識別值，用英數字、連字號或底線；name：員工看到的店名（可含分店名）。
  * grade：留空表示通用；有職級專屬優惠時複製同一門市列，沿用 id，填上職級名稱。
  * 同一 id 與 grade 的組合只能有一筆。選擇職級時，未到期的專屬優惠優先顯示。
- * category：餐飲美食／生活購物／休閒娛樂／醫療保健／旅遊住宿。
+ * category：餐飲美食／生活購物／旅遊住宿。
  * region：縣市全名，例如「台北市」；篩選器會從資料自動產生。
  * owned：集團品牌填 true，外部合作商店填 false（不加引號）。
  * offer：主要優惠；expires：西元 YYYY-MM-DD；到期當日仍有效，空白代表未提供。
@@ -122,7 +122,7 @@ window.HAIPAWANG_STORES = [
   {
     "id": "demo-fun",
     "name": "巷光手作室｜中壢教室（虛構）",
-    "category": "休閒娛樂",
+    "category": "生活購物",
     "region": "桃園市",
     "owned": false,
     "offer": "雙人手作課程享 85 折",
@@ -137,7 +137,7 @@ window.HAIPAWANG_STORES = [
   {
     "id": "demo-health",
     "name": "衡日健康中心｜南屯館（虛構）",
-    "category": "醫療保健",
+    "category": "生活購物",
     "region": "台中市",
     "owned": false,
     "offer": "指定自費健檢方案享員工專案價",
