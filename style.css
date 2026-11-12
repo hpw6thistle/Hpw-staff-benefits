@@ -378,16 +378,17 @@ td:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
     display: grid;
     flex: none;
     place-items: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 4px;
     border: 0;
     border-radius: var(--control-radius);
     background: transparent;
     color: var(--stamp);
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
   }
-  .card-toggle .icon { transition: transform .22s ease; }
-  .card.is-expanded .card-toggle .icon { transform: rotate(180deg); }
   .card-details {
     display: grid;
     grid-template-rows: 0fr;
@@ -404,5 +405,5 @@ td:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 }
 
 @media (max-width: 768px) and (prefers-reduced-motion: reduce) {
-  .card-details, .card-toggle .icon { transition: none; }
+  .card-details { transition: none; }
 }

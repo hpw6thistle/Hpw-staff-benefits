@@ -108,12 +108,12 @@
     const titleRow = el("div", "card-title-row");
     const toggle = el("button", "card-toggle");
     toggle.type = "button";
-    toggle.setAttribute("aria-label", store.name + " 的優惠與門市資訊");
+    toggle.textContent = "展開";
+    toggle.setAttribute("aria-label", "展開 " + store.name + " 的優惠與門市資訊");
     toggle.setAttribute("aria-expanded", "false");
     const details = el("div", "card-details");
     details.id = "store-details-" + store.id.toLowerCase();
     toggle.setAttribute("aria-controls", details.id);
-    toggle.append(icon("chevron"));
     titleRow.append(heading, toggle);
     head.append(tags, titleRow);
 
@@ -165,6 +165,8 @@
     function toggleDetails() {
       if (!mobileCards.matches) return;
       const expanded = toggle.getAttribute("aria-expanded") === "true";
+      toggle.textContent = expanded ? "展開" : "收合";
+      toggle.setAttribute("aria-label", toggle.textContent + " " + store.name + " 的優惠與門市資訊");
       toggle.setAttribute("aria-expanded", String(!expanded));
       card.classList.toggle("is-expanded", !expanded);
       syncCardDetails(card);
