@@ -84,6 +84,7 @@
         link.href = url.href;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
+        link.title = "前往官方網站（另開新視窗）";
         link.append(icon("external"));
         heading.replaceChildren(link);
         break;

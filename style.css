@@ -315,9 +315,34 @@ td:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
   .card:hover { transform: none; }
 }
 
-.brand-title-link { color: inherit; text-decoration: none; }
-.brand-title-link:hover { color: #8C1D24; text-decoration: underline; }
-.brand-title-link .icon { width: .8em; height: .8em; margin-inline-start: .35em; }
+.brand-title-link {
+  color: #1F1C1B;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(140, 29, 36, .35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color .2s ease, text-decoration-color .2s ease;
+}
+.brand-title-link .icon {
+  width: .8em;
+  height: .8em;
+  margin-inline-start: .35em;
+  color: var(--muted);
+  transition: color .2s ease, transform .2s ease;
+}
+.brand-title-link:is(:hover, :focus-visible) {
+  color: #8C1D24;
+  text-decoration-color: #8C1D24;
+}
+.brand-title-link:is(:hover, :focus-visible) .icon {
+  color: #8C1D24;
+  transform: translate(2px, -2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-title-link, .brand-title-link .icon { transition: none; }
+  .brand-title-link:is(:hover, :focus-visible) .icon { transform: none; }
+}
 #maintenance-form { display: grid; gap: 10px; }
 #maintenance-form h2 { font-size: 1.15rem; }
 #maintenance-password { min-width: 0; width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--rule-dark); border-radius: var(--control-radius); }
