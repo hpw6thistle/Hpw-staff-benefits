@@ -309,17 +309,6 @@
   bindLink("home-link", () => navigate("home"));
   bindLink("enter-search", () => navigate("search", { filters: {} }));
   $("guide-link").addEventListener("click", () => $("guide-dialog").showModal());
-  const landingGrade = $("landing-grade");
-  const landingSubmit = $("landing-grade-submit");
-  landingGrade.addEventListener("change", () => {
-    landingSubmit.disabled = !landingGrade.value;
-  });
-  $("landing-grade-form").addEventListener("submit", event => {
-    event.preventDefault();
-    const grade = landingGrade.value;
-    if (!grade) return;
-    navigate("search", { filters: { grade } });
-  });
   window.addEventListener("popstate", () => restoreView(true));
   window.addEventListener("hashchange", () => {
     if (viewFromHash() !== view) restoreView(true);
@@ -341,12 +330,7 @@
     const option = el("option", "", grade);
     option.value = grade;
     elements.grade.append(option);
-    const shortcut = el("option", "", grade);
-    shortcut.value = grade;
-    landingGrade.append(shortcut);
   }
-  landingGrade.disabled = landingGrade.options.length === 1;
-  landingSubmit.disabled = !landingGrade.value;
   const regions = [...new Set(stores.map(store => regionName(store.region)).filter(Boolean))];
   const ordered = [...regionOrder.filter(region => regions.includes(region)), ...regions.filter(region => !regionOrder.includes(region)).sort((a,b) => a.localeCompare(b, "zh-TW"))];
   for (const region of ordered) {

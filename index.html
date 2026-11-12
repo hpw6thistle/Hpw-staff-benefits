@@ -11,9 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&amp;family=Noto+Sans+TC:wght@400..800&amp;display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500&amp;text=%E9%9B%86%E5%9C%98%E8%88%87%E7%89%B9%E7%B4%84%E5%84%AA%E6%83%A0&amp;display=swap">
-  <link rel="stylesheet" href="style.css?v=perks-9">
+  <link rel="stylesheet" href="style.css?v=perks-10">
   <script defer src="data.js"></script>
-  <script defer src="script.js?v=perks-7"></script>
+  <script defer src="script.js?v=perks-10"></script>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
@@ -37,7 +37,6 @@
         <span class="brand-seal" aria-hidden="true">海</span><strong>海霸王</strong><span class="brand-area">特約商店專區</span>
       </a>
       <nav class="nav-links" aria-label="網站導覽">
-        <a class="help nav-wish" href="https://docs.google.com/forms/d/e/1FAIpQLSf23cCO9rtEwcr4myNRW2lUSWQVxX0NwMOzlpYVgqc8DdCyCg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">許願池 <span aria-hidden="true">↗</span></a>
         <button class="help" id="guide-link" type="button" aria-haspopup="dialog">使用規範</button>
       </nav>
     </div>
@@ -59,18 +58,6 @@
       <section class="shell quick-section" aria-labelledby="quick-title">
         <h2 id="quick-title" tabindex="-1">依類別查詢</h2>
         <div id="quick-categories" class="quick-grid"></div>
-        <form class="landing-grade-form" id="landing-grade-form">
-          <div class="landing-grade">
-            <label class="sr-only" for="landing-grade">選擇職級</label>
-            <select id="landing-grade" required disabled><option value="" selected disabled>選擇職級</option></select>
-            <svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg>
-          </div>
-          <button class="action" id="landing-grade-submit" type="submit" disabled>查看優惠</button>
-        </form>
-      </section>
-      <section class="shell wish-section" aria-labelledby="wish-title">
-        <div><h2 id="wish-title">許願池</h2><p>推薦想加入的特約商店。</p></div>
-        <a class="action" href="https://docs.google.com/forms/d/e/1FAIpQLSf23cCO9rtEwcr4myNRW2lUSWQVxX0NwMOzlpYVgqc8DdCyCg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">填寫表單 <span aria-hidden="true">↗</span></a>
       </section>
     </div>
 
@@ -95,7 +82,7 @@
       <div id="empty" class="empty" hidden><h2 id="empty-title">找不到符合條件的特約商店</h2><p id="empty-text">換個關鍵字，或清除篩選。</p><button type="button" class="primary" id="clear-empty">清除篩選</button></div>
     </section>
   </main>
-  <footer class="footer"><div class="shell footer-inner"><span>© 2026 海霸王企業集團 版權所有</span><a href="admin.html">資料維護</a></div></footer>
+  <footer class="footer"><div class="shell footer-inner"><span>© 2026 海霸王企業集團 版權所有</span><div class="footer-actions"><a class="action" href="https://docs.google.com/forms/d/e/1FAIpQLSf23cCO9rtEwcr4myNRW2lUSWQVxX0NwMOzlpYVgqc8DdCyCg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" title="推薦想加入的特約商店">許願池</a><a href="admin.html">資料維護</a></div></div></footer>
   <dialog id="guide-dialog" aria-labelledby="guide-title">
     <form method="dialog">
       <h2 id="guide-title">使用規範</h2>
