@@ -146,9 +146,6 @@ body:has(#landing-view:not([hidden])) {
 .search-box input::placeholder { color: var(--muted); }
 .select-box select { appearance: none; padding: 7px 32px 7px 12px; text-overflow: ellipsis; }
 .select-box option { background: var(--paper); color: var(--ink); }
-.grade-placeholder { display: none; position: absolute; inset: 0 32px 0 13px; align-content: center; pointer-events: none; white-space: nowrap; overflow: hidden; }
-#grade:has(option[value=""]:checked) { color: transparent; }
-#grade:has(option[value=""]:checked) + .grade-placeholder { display: grid; }
 .search-box input:hover, .select-box select:hover { border-color: var(--stamp); }
 .search-box input:focus, .select-box select:focus {
   border-color: var(--stamp);
@@ -298,3 +295,13 @@ td:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
   .card, .chip, .quick-tile, .search-box input, .select-box select { transition: none; }
   .card:hover { transform: none; }
 }
+
+.brand-title-link { color: inherit; text-decoration: none; }
+.brand-title-link:hover { color: #8C1D24; text-decoration: underline; }
+.brand-title-link .icon { width: .8em; height: .8em; margin-inline-start: .35em; }
+#maintenance-form { display: grid; gap: 10px; }
+#maintenance-form h2 { font-size: 1.15rem; }
+#maintenance-password { min-width: 0; width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--rule-dark); border-radius: var(--control-radius); }
+#maintenance-status:empty { display: none; }
+#maintenance-status { color: var(--stamp-dark); }
+.maintenance-actions { display: flex; justify-content: flex-end; gap: 8px; }

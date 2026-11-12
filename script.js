@@ -76,10 +76,25 @@
     const tags = el("div", "tags");
     tags.append(el("span", "tag category", displayCategory(store.category)));
     if (store.owned) tags.append(el("span", "brand-badge", "集團品牌"));
-    head.append(tags, el("h2", "", store.name));
+    const heading = el("h2", "", store.name);
+    for (const website of [store.website, store.url]) {
+      if (typeof website !== "string" || !website.trim()) continue;
+      try {
+        const url = new URL(website);
+        if (!["https:", "http:"].includes(url.protocol) || url.username || url.password) continue;
+        const link = el("a", "brand-title-link", store.name);
+        link.href = url.href;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.append(icon("external"));
+        heading.replaceChildren(link);
+        break;
+      } catch { /* 不完整的網址維持一般標題。 */ }
+    }
+    head.append(tags, heading);
 
     const offer = el("div", "offer");
-    offer.append(el("span", store.grade ? "offer-grade" : "offer-scope", store.grade || "全職級通用"), el("strong", "", store.offer));
+    offer.append(el("span", store.grade ? "offer-grade" : "offer-scope", gradeGroup(store.grade) || "全職級通用"), el("strong", "", store.offer));
     const meta = el("div", "meta");
     const isExpired = Boolean(store.expires && store.expires < today);
     const expires = el("p", "expiry" + (isExpired ? " expired" : ""));
@@ -122,18 +137,26 @@
     return card;
   }
 
+  function gradeGroup(grade) {
+    if (["員工", "一般員工"].includes(grade)) return "員工";
+    if (["主管", "基層主管", "中高階主管"].includes(grade)) return "主管";
+    return "";
+  }
+
   function render() {
     const terms = normalize(elements.search.value).trim().split(/\s+/u).filter(Boolean);
     const region = elements.region.value;
     const owned = elements.owned.checked;
     const today = taipeiToday();
-    const grade = elements.grade.value;
+    const grade = elements.grade.value === "all" ? "" : elements.grade.value;
     const applicable = new Map();
     // 先決定每間店適用的優惠，再搜尋。通用優惠不會蓋過所選職級的優惠。
     for (const store of stores) {
-      const targeted = grade && store.grade === grade && (!store.expires || store.expires >= today);
+      const targeted = grade && gradeGroup(store.grade) === grade && (!store.expires || store.expires >= today);
       const current = applicable.get(store.id);
-      if (targeted || (!store.grade && (!current || (!grade && current.grade))) || (!grade && !current)) {
+      // 合併舊主管層級時，以適用範圍較廣的方案優先。
+      const priority = row => row?.grade === grade ? 3 : row?.grade === "基層主管" || row?.grade === "一般員工" ? 2 : row?.grade === "中高階主管" ? 1 : 0;
+      if ((targeted && priority(store) >= priority(current)) || (!store.grade && (!current || (!grade && current.grade))) || (!grade && !current)) {
         applicable.set(store.id, store);
       }
     }
@@ -161,7 +184,7 @@
     const selected = displayCategory(filters.category);
     category = categories.includes(selected) ? selected : "";
     elements.search.value = filters.keyword || "";
-    elements.grade.value = filters.grade || "";
+    elements.grade.value = gradeGroup(filters.grade) || "all";
     elements.region.value = filters.region || "";
     elements.owned.checked = Boolean(filters.owned);
     if (Array.isArray(data)) render();
@@ -278,11 +301,6 @@
     return;
   }
 
-  for (const grade of new Set(stores.map(store => store.grade).filter(Boolean))) {
-    const option = el("option", "", grade);
-    option.value = grade;
-    elements.grade.append(option);
-  }
   const regions = [...new Set(stores.map(store => regionName(store.region)).filter(Boolean))];
   const ordered = [...regionOrder.filter(region => regions.includes(region)), ...regions.filter(region => !regionOrder.includes(region)).sort((a,b) => a.localeCompare(b, "zh-TW"))];
   for (const region of ordered) {

@@ -11,9 +11,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&amp;family=Noto+Sans+TC:wght@400..800&amp;display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500&amp;text=%E9%9B%86%E5%9C%98%E8%88%87%E7%89%B9%E7%B4%84%E5%84%AA%E6%83%A0&amp;display=swap">
-  <link rel="stylesheet" href="style.css?v=perks-12">
-  <script defer src="data.js?v=perks-12"></script>
-  <script defer src="script.js?v=perks-12"></script>
+  <link rel="stylesheet" href="style.css?v=perks-13">
+  <script defer src="data.js?v=perks-13"></script>
+  <script defer src="auth.js?v=perks-13"></script>
+  <script defer src="script.js?v=perks-13"></script>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
@@ -67,8 +68,7 @@
           <div class="search-box"><svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg><label class="sr-only" for="keyword">搜尋店名、優惠或地址</label><input id="keyword" type="search" placeholder="搜尋店名、優惠或地址" autocomplete="off" maxlength="120"></div>
           <div class="select-box">
             <label class="sr-only" for="grade">員工職級</label>
-            <select id="grade" aria-describedby="grade-help"><option value="">全部</option></select>
-            <span class="grade-placeholder" aria-hidden="true">全部職級</span>
+            <select id="grade" aria-describedby="grade-help"><option value="all">全部</option><option value="員工">員工</option><option value="主管">主管</option></select>
             <svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg>
           </div>
           <div class="select-box"><label class="sr-only" for="region">依縣市篩選</label><select id="region"><option value="">全部地區</option></select><svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg></div>
@@ -81,12 +81,21 @@
       <div id="empty" class="empty" hidden><h2 id="empty-title">找不到符合條件的特約商店</h2><p id="empty-text">換個關鍵字，或清除篩選。</p><button type="button" class="primary" id="clear-empty">清除篩選</button></div>
     </section>
   </main>
-  <footer class="footer"><div class="shell footer-inner"><span>© 2026 海霸王企業集團 版權所有</span><div class="footer-actions"><a href="https://docs.google.com/forms/d/e/1FAIpQLSf23cCO9rtEwcr4myNRW2lUSWQVxX0NwMOzlpYVgqc8DdCyCg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" title="推薦想加入的特約商店">許願池</a><a href="admin.html">資料維護</a></div></div></footer>
+  <footer class="footer"><div class="shell footer-inner"><span>© 2026 海霸王企業集團 版權所有</span><div class="footer-actions"><a href="https://docs.google.com/forms/d/e/1FAIpQLSf23cCO9rtEwcr4myNRW2lUSWQVxX0NwMOzlpYVgqc8DdCyCg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" title="推薦想加入的特約商店">許願池</a><a id="maintenance-link" href="admin.html">資料維護</a></div></div></footer>
   <dialog id="guide-dialog" aria-labelledby="guide-title">
     <form method="dialog">
       <h2 id="guide-title">使用規範</h2>
       <p>結帳前出示員工證。訂位、訂房時先確認優惠。</p>
       <button class="action" autofocus>關閉</button>
+    </form>
+  </dialog>
+  <dialog id="maintenance-dialog" aria-labelledby="maintenance-title">
+    <form id="maintenance-form">
+      <h2 id="maintenance-title">資料維護驗證</h2>
+      <label for="maintenance-password">密碼</label>
+      <input id="maintenance-password" type="password" required autofocus>
+      <p id="maintenance-status" role="status"></p>
+      <div class="maintenance-actions"><button type="button" class="action" id="maintenance-cancel">取消</button><button class="primary" type="submit">確認</button></div>
     </form>
   </dialog>
 </body>
