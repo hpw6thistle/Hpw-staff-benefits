@@ -5,9 +5,10 @@
   const data = window.HAIPAWANG_STORES;
   const stores = Array.isArray(data) ? data : [];
   const elements = { search: $("keyword"), grade: $("grade"), region: $("region"), owned: $("owned"), cards: $("cards") };
-  const categoryOrder = ["餐飲美食", "旅遊住宿", "生活購物", "休閒娛樂", "醫療保健"];
-  const combinedCategory = "休閒與醫療";
-  const categories = ["", ...new Set([...categoryOrder, ...stores.map(s => s.category).filter(Boolean), combinedCategory])];
+  const combinedCategory = "休閒醫療";
+  const leisureCategories = new Set(["休閒娛樂", "醫療保健", "休閒與醫療", combinedCategory]);
+  const categoryOrder = ["餐飲美食", "旅遊住宿", "生活購物", combinedCategory];
+  const categories = ["", ...new Set([...categoryOrder, ...stores.map(s => displayCategory(s.category)).filter(Boolean)])];
   const quickCategories = [
     { name: "集團品牌專屬", owned: true },
     { name: "餐飲美食", category: "餐飲美食" },
@@ -47,9 +48,12 @@
     return String(value ?? "").normalize("NFKC").toLocaleLowerCase("zh-TW").replaceAll("臺", "台");
   }
 
+  function displayCategory(value) {
+    return leisureCategories.has(value) ? combinedCategory : value;
+  }
+
   function matchesCategory(store, selected) {
-    if (selected === combinedCategory) return ["休閒娛樂", "醫療保健", combinedCategory].includes(store.category);
-    return !selected || store.category === selected;
+    return !selected || displayCategory(store.category) === selected;
   }
 
   function taipeiToday() {
@@ -105,9 +109,8 @@
     const body = el("div", "card-body");
     const head = el("div", "card-head");
     const tags = el("div", "tags");
-    tags.append(el("span", "tag category", store.category), el("span", "tag", regionName(store.region)));
-    if (store.owned) tags.append(el("span", "tag owned", "集團品牌"));
-    if (store.demo) tags.append(el("span", "tag demo-tag", "範例"));
+    tags.append(el("span", "tag category", displayCategory(store.category)));
+    if (store.owned) tags.append(el("span", "brand-badge", "集團品牌"));
     head.append(tags, el("h2", "", store.name));
 
     const offer = el("div", "offer");
@@ -134,7 +137,7 @@
     }
 
     body.append(head, offer, meta);
-    if (store.notes) body.append(el("p", "notes", store.notes));
+    const bottom = el("div", "card-bottom");
     const stub = el("div", "ticket-stub");
     const actions = el("div", "stub-row");
     actions.append(expires);
@@ -159,9 +162,11 @@
       copy.append(icon("copy"), label === "優惠碼" ? "複製代碼" : "複製" + label);
       copy.addEventListener("click", () => copyText(store.code, copy, label));
       codeRow.append(codeInfo, copy);
-      stub.append(codeRow);
+      bottom.append(codeRow);
     }
-    card.append(body, stub);
+    if (store.notes) bottom.append(el("p", "notes", store.notes));
+    bottom.append(stub);
+    card.append(body, bottom);
     return card;
   }
 
@@ -175,7 +180,10 @@
     // 先決定每間店適用的優惠，再搜尋。通用優惠不會蓋過所選職級的優惠。
     for (const store of stores) {
       const targeted = grade && store.grade === grade && (!store.expires || store.expires >= today);
-      if (targeted || (!store.grade && !applicable.has(store.id))) applicable.set(store.id, store);
+      const current = applicable.get(store.id);
+      if (targeted || (!store.grade && (!current || (!grade && current.grade))) || (!grade && !current)) {
+        applicable.set(store.id, store);
+      }
     }
     const filtered = [...applicable.values()].filter(store => {
       if (!matchesCategory(store, category)) return false;
@@ -188,8 +196,8 @@
     filtered.forEach(store => fragment.append(storeCard(store, today)));
     elements.cards.replaceChildren(fragment);
     $("count").textContent = filtered.length === applicable.size
-      ? filtered.length + " 間商店"
-      : filtered.length + " / " + applicable.size + " 間商店";
+      ? "共 " + filtered.length + " 間商店"
+      : "找到 " + filtered.length + " 間，共 " + applicable.size + " 間商店";
     $("clear-top").hidden = !(terms.length || category || region || owned || grade);
     $("empty").hidden = filtered.length > 0;
     $("categories").querySelectorAll("button").forEach(button => {
@@ -198,7 +206,8 @@
   }
 
   function applyFilters(filters = {}) {
-    category = categories.includes(filters.category) ? filters.category : "";
+    const selected = displayCategory(filters.category);
+    category = categories.includes(selected) ? selected : "";
     elements.search.value = filters.keyword || "";
     elements.grade.value = filters.grade || "";
     elements.region.value = filters.region || "";
@@ -218,21 +227,18 @@
     return window.location.hash === "#search" ? "search" : "home";
   }
 
-  function displayView(next, { focus = false, guide = false } = {}) {
+  function displayView(next, { focus = false } = {}) {
     view = next;
     $("landing-view").hidden = next === "search";
     $("directory").hidden = next === "home";
     document.title = (next === "search" ? "特約商店查詢" : "員工專屬福利手冊") + "｜海霸王";
-    if (guide) {
-      $("guide").focus({ preventScroll: true });
-      $("guide").scrollIntoView({ block: "start" });
-    } else if (focus) {
+    if (focus) {
       window.scrollTo(0, 0);
       $(next === "search" ? "search-title" : "landing-title").focus({ preventScroll: true });
     }
   }
 
-  function navigate(next, { filters, guide = false } = {}) {
+  function navigate(next, { filters } = {}) {
     const changed = next !== view;
     if (changed) saveFilters();
     if (next === "search" && (changed || filters)) applyFilters(filters);
@@ -241,7 +247,7 @@
     // 視圖切換才新增一筆紀錄；篩選與同頁操作用 replaceState，返回鍵可一次回到首頁。
     if (changed) window.history.pushState(state, "", hash);
     else window.history.replaceState(state, "", hash);
-    displayView(next, { focus: changed, guide });
+    displayView(next, { focus: changed });
   }
 
   function restoreView(focus) {
@@ -286,7 +292,10 @@
 
   bindLink("home-link", () => navigate("home"));
   bindLink("enter-search", () => navigate("search", { filters: {} }));
-  bindLink("guide-link", () => navigate("search", { guide: true }));
+  bindLink("guide-link", () => {
+    $("guide").focus({ preventScroll: true });
+    $("guide").scrollIntoView({ block: "start" });
+  });
   $("landing-grade").addEventListener("change", event => {
     const grade = event.target.value;
     if (!grade) return;

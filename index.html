@@ -4,15 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="依店名、優惠、類別和地區查詢海霸王員工特約商店。">
-  <meta name="theme-color" content="#FAF8F5">
+  <meta name="theme-color" content="#F5F2EE">
   <title>員工特約商店｜海霸王員工福利站</title>
   <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&amp;family=Noto+Serif+TC:wght@600;700&amp;display=swap">
-  <link rel="stylesheet" href="style.css?v=perks-2">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&amp;family=Noto+Sans+TC:wght@400..800&amp;display=swap">
+  <link rel="stylesheet" href="style.css?v=perks-3">
   <script defer src="data.js"></script>
-  <script defer src="script.js?v=perks-2"></script>
+  <script defer src="script.js?v=perks-3"></script>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
@@ -35,6 +35,12 @@
       </nav>
     </div>
   </header>
+  <div class="announcement" id="guide" tabindex="-1">
+    <div class="shell announcement-inner">
+      <p>結帳前出示員工證。訂位、訂房時先確認優惠。</p>
+      <span id="demo" class="demo" hidden>部分優惠為範例，僅供參考</span>
+    </div>
+  </div>
   <main id="main" tabindex="-1">
     <div id="landing-view">
       <section class="shell hero-banner" aria-labelledby="landing-title">
@@ -64,19 +70,16 @@
       <div class="filters">
         <div class="filter-row">
           <div class="search-box"><svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg><label class="sr-only" for="keyword">搜尋店名、優惠或地址</label><input id="keyword" type="search" placeholder="搜尋店名、優惠或地址" autocomplete="off" maxlength="120"></div>
-          <div class="grade-box">
-            <label for="grade">員工職級</label>
-            <select id="grade" aria-describedby="grade-help"><option value="">全職級通用</option></select>
+          <div class="select-box">
+            <label class="sr-only" for="grade">員工職級</label>
+            <select id="grade" aria-describedby="grade-help"><option value="">全部</option></select>
+            <span class="grade-placeholder" aria-hidden="true">全部職級</span>
             <svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg>
           </div>
-          <div class="region-box"><label class="sr-only" for="region">依縣市篩選</label><select id="region"><option value="">全部地區</option></select><svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg></div>
+          <div class="select-box"><label class="sr-only" for="region">依縣市篩選</label><select id="region"><option value="">全部地區</option></select><svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg></div>
         </div>
         <p class="sr-only" id="grade-help">沒有職級專屬方案時，顯示通用優惠。</p>
         <div id="categories" class="categories" role="group" aria-label="依商店類別篩選"></div>
-      </div>
-      <div class="guide" id="guide" tabindex="-1">
-        <p>結帳前出示員工證。訂位、訂房時先確認優惠。</p>
-        <span id="demo" class="demo" hidden>範例，僅供參考</span>
       </div>
       <div class="results-bar"><p id="count" role="status">正在載入商店…</p><div class="result-tools"><button type="button" class="text-button" id="clear-top" hidden>清除篩選條件</button><label class="check"><input type="checkbox" id="owned"> 只看集團品牌</label></div></div>
       <div id="cards" class="cards"></div>
