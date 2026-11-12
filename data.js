@@ -2,7 +2,7 @@
  * 海霸王員工特約商店：一個 { ... } 代表一個門市優惠。
  * 新增時複製完整的一筆，兩筆之間要有逗號；保留雙引號、括號及檔尾分號。
  * id：門市的識別值，用英數字、連字號或底線；name：員工看到的店名（可含分店名）。
- * grade：留空表示通用；有職級專屬優惠時複製同一門市列，沿用 id，填上職級名稱。
+ * grade：留空表示通用；有職級專屬優惠時複製同一門市列，沿用 id，填上「員工」或「主管」。
  * 同一 id 與 grade 的組合只能有一筆。選擇職級時，未到期的專屬優惠優先顯示。
  * category：餐飲美食／生活購物／旅遊住宿。
  * region：縣市全名，例如「台北市」；篩選器會從資料自動產生。
@@ -177,7 +177,7 @@ window.HAIPAWANG_STORES = [
     "notes": "需事先訂位；僅適用本職級。",
     "placeId": "",
     "demo": true,
-    "grade": "一般員工"
+    "grade": "員工"
   },
   {
     "id": "hpw-zhongshan",
@@ -192,22 +192,7 @@ window.HAIPAWANG_STORES = [
     "notes": "需事先訂位；僅適用本職級。",
     "placeId": "",
     "demo": true,
-    "grade": "基層主管"
-  },
-  {
-    "id": "hpw-zhongshan",
-    "name": "海霸王餐廳｜中山店",
-    "category": "餐飲美食",
-    "region": "台北市",
-    "owned": true,
-    "offer": "憑員工證，平日指定桌菜享 8 折",
-    "expires": "2027-12-31",
-    "address": "台北市中山區中山北路三段59號",
-    "phone": "02-2596-3141",
-    "notes": "需事先訂位；僅適用本職級。",
-    "placeId": "",
-    "demo": true,
-    "grade": "中高階主管"
+    "grade": "主管"
   },
   {
     "id": "citysuites-love",
@@ -222,21 +207,6 @@ window.HAIPAWANG_STORES = [
     "notes": "電話訂房時請告知職級。",
     "placeId": "",
     "demo": true,
-    "grade": "基層主管"
-  },
-  {
-    "id": "citysuites-love",
-    "name": "城市商旅｜高雄真愛館",
-    "category": "旅遊住宿",
-    "region": "高雄市",
-    "owned": true,
-    "offer": "平日指定房型享官網房價 75 折",
-    "expires": "2027-12-31",
-    "address": "高雄市鹽埕區大義街1號",
-    "phone": "07-521-5116",
-    "notes": "電話訂房時請告知職級。",
-    "placeId": "",
-    "demo": true,
-    "grade": "中高階主管"
+    "grade": "主管"
   }
 ];
