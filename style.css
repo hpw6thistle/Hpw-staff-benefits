@@ -75,9 +75,17 @@ body:has(#landing-view:not([hidden])) {
   min-height: calc(100vh - var(--site-chrome-height, 69px));
   min-height: calc(100svh - var(--site-chrome-height, 69px));
   padding-block: clamp(76px, 11svh, 96px); text-align: center;
-  background-image: url("assets/image_7c2cbfab.jpg");
-  background-size: cover; background-position: center; background-repeat: no-repeat;
   overflow: clip;
+}
+.hero-banner::after {
+  content: ""; position: absolute; inset: 0; z-index: -2; pointer-events: none;
+  background: url("assets/image_7c2cbfab.jpg") center / cover no-repeat;
+}
+@media (min-width: 701px) and (min-aspect-ratio: 5/4) {
+  .hero-banner::after {
+    inset-inline: 8%;
+    mask-image: linear-gradient(to right, transparent, black 14%, black 86%, transparent);
+  }
 }
 .hero-banner::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
