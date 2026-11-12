@@ -10,15 +10,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&amp;family=Noto+Sans+TC:wght@400..800&amp;display=swap">
-  <link rel="stylesheet" href="style.css?v=perks-3">
+  <link rel="stylesheet" href="style.css?v=perks-4">
   <script defer src="data.js"></script>
-  <script defer src="script.js?v=perks-3"></script>
+  <script defer src="script.js?v=perks-4"></script>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M19 10c0 5-7 10-7 10S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2"/></symbol>
   <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></symbol>
+  <symbol id="i-brand" viewBox="0 0 24 24"><path d="M5 21V8l7-4 7 4v13M3 21h18M9 11h1m4 0h1m-6 4h1m4 0h1m-3 6v-3"/></symbol>
+  <symbol id="i-dining" viewBox="0 0 24 24"><path d="M5 3v5a3 3 0 0 0 6 0V3M8 3v18m11 0V3c-3 2-4 6-4 10h4"/></symbol>
+  <symbol id="i-stay" viewBox="0 0 24 24"><path d="M3 20V6m18 14v-5H3m8 0V9h6a4 4 0 0 1 4 4v2"/><circle cx="7" cy="11" r="1.5"/></symbol>
+  <symbol id="i-shopping" viewBox="0 0 24 24"><path d="M5 8h14l1 12H4L5 8Zm4 2V7a3 3 0 1 1 6 0v3"/></symbol>
+  <symbol id="i-wellness" viewBox="0 0 24 24"><path d="M20 6a5 5 0 0 0-7 0l-1 1-1-1a5 5 0 1 0-7 7l8 8 8-8a5 5 0 0 0 0-7Z"/><path d="M7 12h3l1-2 2 4 1-2h3"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
   <symbol id="i-external" viewBox="0 0 24 24"><path d="M13 5h6v6m0-6-8 8m6 0v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h5"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><path d="M7 3h3l1 5-2 1a14 14 0 0 0 6 6l1-2 5 1v3c0 2-1 4-4 4C10 20 4 14 3 7c0-3 2-4 4-4Z"/></symbol>
@@ -38,25 +43,31 @@
   <div class="announcement" id="guide" tabindex="-1">
     <div class="shell announcement-inner">
       <p>結帳前出示員工證。訂位、訂房時先確認優惠。</p>
-      <span id="demo" class="demo" hidden>部分優惠為範例，僅供參考</span>
     </div>
   </div>
   <main id="main" tabindex="-1">
     <div id="landing-view">
       <section class="shell hero-banner" aria-labelledby="landing-title">
         <div class="hero-inner">
-          <p class="hero-kicker">海霸王企業集團 <span aria-hidden="true">｜</span> 員工專屬福利手冊</p>
           <h1 id="landing-title" tabindex="-1">集團與特約優惠</h1>
           <p class="hero-intro">查詢餐飲、住宿與生活優惠。</p>
           <div class="hero-actions">
             <a class="primary hero-cta" id="enter-search" href="#search">進入特約商店查詢 <span aria-hidden="true">→</span></a>
-            <div class="landing-grade">
-              <label class="sr-only" for="landing-grade">依我的職級查詢</label>
-              <select id="landing-grade"><option value="" selected disabled>依我的職級查詢</option></select>
-              <svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg>
-            </div>
+            <form class="landing-grade-form" id="landing-grade-form">
+              <div class="landing-grade">
+                <label class="sr-only" for="landing-grade">選擇職級</label>
+                <select id="landing-grade" required disabled><option value="" selected disabled>選擇職級</option></select>
+                <svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg>
+              </div>
+              <button class="action" id="landing-grade-submit" type="submit" disabled>查看優惠</button>
+            </form>
           </div>
           <noscript><p class="no-js">請啟用 JavaScript 以查詢。</p></noscript>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <span class="hero-art-square"></span>
+          <span class="hero-art-axis"></span>
+          <span class="hero-art-dot"></span>
         </div>
       </section>
       <section class="shell quick-section" aria-labelledby="quick-title">
@@ -84,12 +95,6 @@
       <div class="results-bar"><p id="count" role="status">正在載入商店…</p><div class="result-tools"><button type="button" class="text-button" id="clear-top" hidden>清除篩選條件</button><label class="check"><input type="checkbox" id="owned"> 只看集團品牌</label></div></div>
       <div id="cards" class="cards"></div>
       <div id="empty" class="empty" hidden><h2 id="empty-title">找不到符合條件的特約商店</h2><p id="empty-text">換個關鍵字，或清除篩選。</p><button type="button" class="primary" id="clear-empty">清除篩選</button></div>
-    </section>
-    <section class="shell wish" aria-labelledby="wish-title">
-      <div class="wish-card">
-        <div><h2 id="wish-title">許願池</h2><p>推薦想加入的特約商店。</p></div>
-        <a class="primary" href="https://docs.google.com/forms/d/e/1FAIpQLSf23cCO9rtEwcr4myNRW2lUSWQVxX0NwMOzlpYVgqc8DdCyCg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">填寫表單 <span aria-hidden="true">↗</span></a>
-      </div>
     </section>
   </main>
   <footer class="footer"><div class="shell footer-inner"><span>海霸王 · 員工福利站</span><a href="admin.html">資料維護</a></div></footer>

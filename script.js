@@ -10,11 +10,11 @@
   const categoryOrder = ["餐飲美食", "旅遊住宿", "生活購物", combinedCategory];
   const categories = ["", ...new Set([...categoryOrder, ...stores.map(s => displayCategory(s.category)).filter(Boolean)])];
   const quickCategories = [
-    { name: "集團品牌專屬", owned: true },
-    { name: "餐飲美食", category: "餐飲美食" },
-    { name: "旅遊住宿", category: "旅遊住宿" },
-    { name: "生活購物", category: "生活購物" },
-    { name: combinedCategory, category: combinedCategory },
+    { name: "集團品牌專屬", owned: true, icon: "brand" },
+    { name: "餐飲美食", category: "餐飲美食", icon: "dining" },
+    { name: "旅遊住宿", category: "旅遊住宿", icon: "stay" },
+    { name: "生活購物", category: "生活購物", icon: "shopping" },
+    { name: combinedCategory, category: combinedCategory, icon: "wellness" },
   ];
   const regionOrder = ["台北市", "新北市", "桃園市", "台中市", "高雄市"];
   let category = "";
@@ -268,11 +268,11 @@
   function renderQuickLinks() {
     for (const entry of quickCategories) {
       const total = new Set(stores.filter(store => entry.owned ? store.owned : matchesCategory(store, entry.category)).map(store => store.id)).size;
-      const link = el("a", "quick-tile" + (entry.owned ? " owned-tile" : ""));
+      const link = el("a", "quick-tile");
       link.href = "#search";
-      const label = el("span");
-      label.append(el("strong", "", entry.name), el("small", "", total + " 間門市"));
-      const arrow = el("span", "", "→");
+      const label = el("span", "quick-tile-label");
+      label.append(icon(entry.icon), el("strong", "", entry.name), el("small", "", total + " 間門市"));
+      const arrow = el("span", "quick-tile-arrow", "→");
       arrow.setAttribute("aria-hidden", "true");
       link.append(label, arrow);
       link.addEventListener("click", event => {
@@ -296,10 +296,15 @@
     $("guide").focus({ preventScroll: true });
     $("guide").scrollIntoView({ block: "start" });
   });
-  $("landing-grade").addEventListener("change", event => {
-    const grade = event.target.value;
+  const landingGrade = $("landing-grade");
+  const landingSubmit = $("landing-grade-submit");
+  landingGrade.addEventListener("change", () => {
+    landingSubmit.disabled = !landingGrade.value;
+  });
+  $("landing-grade-form").addEventListener("submit", event => {
+    event.preventDefault();
+    const grade = landingGrade.value;
     if (!grade) return;
-    event.target.value = "";
     navigate("search", { filters: { grade } });
   });
   window.addEventListener("popstate", () => restoreView(true));
@@ -315,21 +320,20 @@
     $("clear-empty").hidden = true;
     $("empty").hidden = false;
     Object.values(elements).forEach(node => { if ("disabled" in node) node.disabled = true; });
-    $("landing-grade").disabled = true;
     displayView(viewFromHash());
     return;
   }
 
-  $("demo").hidden = !stores.some(store => store.demo);
   for (const grade of new Set(stores.map(store => store.grade).filter(Boolean))) {
     const option = el("option", "", grade);
     option.value = grade;
     elements.grade.append(option);
     const shortcut = el("option", "", grade);
     shortcut.value = grade;
-    $("landing-grade").append(shortcut);
+    landingGrade.append(shortcut);
   }
-  $("landing-grade").disabled = $("landing-grade").options.length === 1;
+  landingGrade.disabled = landingGrade.options.length === 1;
+  landingSubmit.disabled = !landingGrade.value;
   const regions = [...new Set(stores.map(store => regionName(store.region)).filter(Boolean))];
   const ordered = [...regionOrder.filter(region => regions.includes(region)), ...regions.filter(region => !regionOrder.includes(region)).sort((a,b) => a.localeCompare(b, "zh-TW"))];
   for (const region of ordered) {
