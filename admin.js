@@ -2,8 +2,8 @@
   "use strict";
   const columns = [
     ["id","門市 ID"], ["name","店名"], ["category","類別"], ["region","地區"], ["owned","集團品牌"],
-    ["offer","優惠內容"], ["expires","有效期限"], ["address","地址"], ["phone","電話"], ["code","優惠碼或結帳資訊"],
-    ["codeLabel","複製項目名稱"], ["notes","注意事項"], ["placeId","Google Maps Place ID"], ["demo","範例資料"], ["grade","適用職級"]
+    ["offer","優惠內容"], ["expires","有效期限"], ["address","地址"], ["phone","電話"],
+    ["notes","注意事項"], ["placeId","Google Maps Place ID"], ["demo","範例資料"], ["grade","適用職級"]
   ];
   const required = ["id", "name", "category", "region", "offer", "address"];
   const allowedCategories = ["餐飲美食", "旅遊住宿", "生活購物", "休閒娛樂", "醫療保健"];
@@ -67,7 +67,10 @@
     const rows = parseCSV(source);
     const titles = rows.shift()?.map(value => value.trim()) || [];
     const expected = titles.includes("適用職級") ? header : header.filter(label => label !== "適用職級");
-    if (titles.length !== expected.length || new Set(titles).size !== expected.length || expected.some(label => !titles.includes(label))) {
+    // 舊版 CSV 的優惠碼欄位可略過，匯出的檔案只含現行欄位。
+    const legacyColumns = new Set(["優惠碼或結帳資訊", "複製項目名稱"]);
+    const currentTitles = titles.filter(label => !legacyColumns.has(label));
+    if (currentTitles.length !== expected.length || new Set(titles).size !== titles.length || expected.some(label => !currentTitles.includes(label))) {
       return { errors: ["欄位標題不完整或重複。請使用下載的範本並保留所有欄位。"] };
     }
     const errors = [], stores = [], seen = new Set();
@@ -176,7 +179,7 @@
   });
   $("download").addEventListener("click", () => {
     if (!imported) return;
-    const comments = "/*\n * 海霸王員工特約商店：一個 { ... } 代表一個門市優惠。\n * 新增時複製完整的一筆，兩筆之間要有逗號；保留雙引號、括號及檔尾分號。\n * id：門市的識別值，用英數字、連字號或底線；name：員工看到的店名（可含分店名）。\n * grade：留空表示通用；有職級專屬優惠時複製同一門市列，沿用 id，填上職級名稱。\n * 同一 id 與 grade 的組合只能有一筆。選擇職級時，未到期的專屬優惠優先顯示。\n * category：餐飲美食／生活購物／休閒娛樂／醫療保健／旅遊住宿。\n * region：縣市全名，例如「台北市」；篩選器會從資料自動產生。\n * owned：集團品牌填 true，外部合作商店填 false（不加引號）。\n * offer：主要優惠；expires：西元 YYYY-MM-DD；到期當日仍有效，空白代表未提供。\n * address：門市地址；phone：門市電話（可空白，請保留前面的 0）。\n * code：欲複製的優惠碼、統編或注意事項；codeLabel：優惠碼／結帳資訊，可留空。\n * notes：限制與使用方式；placeId：Google Maps Place ID（可留空）。\n * demo：範例填 true。確認優惠、公開授權與門市資訊後，正式資料填 false。\n * 無內容的文字欄位用 \"\"；保留欄位名稱。要用 Excel 批次維護，開啟 admin.html。\n */";
+    const comments = "/*\n * 海霸王員工特約商店：一個 { ... } 代表一個門市優惠。\n * 新增時複製完整的一筆，兩筆之間要有逗號；保留雙引號、括號及檔尾分號。\n * id：門市的識別值，用英數字、連字號或底線；name：員工看到的店名（可含分店名）。\n * grade：留空表示通用；有職級專屬優惠時複製同一門市列，沿用 id，填上職級名稱。\n * 同一 id 與 grade 的組合只能有一筆。選擇職級時，未到期的專屬優惠優先顯示。\n * category：餐飲美食／生活購物／休閒娛樂／醫療保健／旅遊住宿。\n * region：縣市全名，例如「台北市」；篩選器會從資料自動產生。\n * owned：集團品牌填 true，外部合作商店填 false（不加引號）。\n * offer：主要優惠；expires：西元 YYYY-MM-DD；到期當日仍有效，空白代表未提供。\n * address：門市地址；phone：門市電話（可空白，請保留前面的 0）。\n * notes：限制與使用方式；placeId：Google Maps Place ID（可留空）。\n * demo：範例填 true。確認優惠、公開授權與門市資訊後，正式資料填 false。\n * 無內容的文字欄位用 \"\"；保留欄位名稱。要用 Excel 批次維護，開啟 admin.html。\n */";
     const source = JSON.stringify(imported, null, 2).replaceAll("<", "\\u003c");
     download("data.js", comments + "\nwindow.HAIPAWANG_STORES = " + source + ";\n", "text/javascript;charset=utf-8");
     $("save-status").textContent = "已下載，請替換 GitHub 上的檔案";

@@ -204,10 +204,6 @@ body:has(#landing-view:not([hidden])) {
 .expiry time { font-size: .83rem; white-space: nowrap; font-weight: 700; }
 .expiry.expired, .expiry.expired time { color: var(--stamp-dark); }
 .expiry.expired time { text-decoration: line-through; }
-.code-row { flex-wrap: nowrap; border-top: 1px solid var(--rule); margin-bottom: 8px; }
-.code-info { min-width: 0; display: grid; padding: 4px 0; color: var(--muted); font-size: .72rem; }
-.code-value { color: var(--ink); font-size: .82rem; }
-code.code-value { font-weight: 700; }
 .action, .primary {
   display: inline-flex; justify-content: center; align-items: center; gap: 5px; min-height: 44px;
   border: 1px solid var(--rule-dark); border-radius: var(--control-radius); background: var(--paper); color: var(--stamp-dark);
@@ -217,7 +213,6 @@ code.code-value { font-weight: 700; }
 .action .icon { width: 14px; height: 14px; }
 .stub-row .action { border: 0; padding: 0 2px; background: transparent; }
 .stub-row .action:hover { text-decoration: underline; }
-.stub-row .copy { flex: 0 1 auto; text-align: right; }
 .primary { background: var(--stamp); border-color: var(--stamp); color: var(--paper); padding-inline: 13px; }
 .primary:hover { background: var(--stamp-dark); }
 button:disabled { opacity: .55; cursor: default; }
@@ -228,17 +223,10 @@ button:disabled { opacity: .55; cursor: default; }
 .footer-inner { flex-wrap: wrap; }
 .footer-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-inline-start: auto; }
 .footer a { display: flex; align-items: center; min-height: 44px; }
-.toast {
-  position: fixed; z-index: 2; bottom: 18px; left: 50%; transform: translateX(-50%);
-  width: max-content; max-width: calc(100% - 28px); padding: 8px 13px;
-  border: 1px solid var(--stamp-dark); border-radius: var(--control-radius); background: var(--stamp-dark); color: var(--paper);
-}
-.toast:empty { visibility: hidden; }
 dialog { width: min(440px, calc(100% - 30px)); padding: var(--card-padding); border: 1px solid var(--rule-dark); border-radius: var(--radius); background: var(--paper); color: var(--ink); box-shadow: var(--surface-shadow); }
 dialog::backdrop { background: #231F2080; }
 #guide-dialog h2 { font-size: 1.15rem; }
 #guide-dialog p { margin-block: 8px 16px; color: var(--muted); }
-dialog textarea { display: block; width: 100%; min-height: 70px; margin: 8px 0 12px; font-family: var(--mono); }
 
 /* The HR page uses the same paper, type and rules. */
 .admin { max-width: 850px; padding-block: var(--module-gap); }
@@ -293,6 +281,17 @@ td:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
   .brand-area { display: none; }
   .quick-grid { gap: 10px; }
   .quick-tile { padding-inline: 13px; }
+}
+@media (max-width: 768px) {
+  .hero-banner { min-height: 52vh; min-height: 52svh; padding: 80px 20px 48px; }
+  .hero-banner::after { inset-inline: 0; background-position: 20% 25%; mask-image: none; }
+  .hero-scroll { display: none; }
+  .quick-section { padding-top: 16px; }
+  .quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+  .quick-tile { min-height: 72px; padding: 9px 12px; align-items: center; }
+  .quick-tile-label { gap: 2px; }
+  .quick-tile-label .icon { width: 16px; height: 16px; margin-bottom: 0; }
+  .quick-tile strong { font-size: .85rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

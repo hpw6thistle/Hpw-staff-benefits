@@ -18,7 +18,6 @@
   ];
   const regionOrder = ["台北市", "新北市", "桃園市", "台中市", "高雄市"];
   let category = "";
-  let toastTimer;
   let view;
 
   // 建立節點時使用 textContent，讓資料中的 HTML 符號只會以文字顯示。
@@ -70,40 +69,6 @@
     return url.href;
   }
 
-  function notify(message) {
-    clearTimeout(toastTimer);
-    $("toast").textContent = message;
-    toastTimer = setTimeout(() => { $("toast").textContent = ""; }, 2300);
-  }
-
-  async function copyText(value, button, label) {
-    let copied = false;
-    try {
-      await navigator.clipboard.writeText(value);
-      copied = true;
-    } catch {
-      const input = el("textarea");
-      input.value = value;
-      input.readOnly = true;
-      input.style.cssText = "position:fixed;left:-9999px;top:0";
-      document.body.append(input);
-      input.select();
-      try { copied = document.execCommand("copy"); } catch { /* 可改為手動複製 */ }
-      input.remove();
-      if (button.isConnected) button.focus({ preventScroll: true });
-    }
-    if (!copied) {
-      $("copy-value").value = value;
-      $("copy-dialog").showModal();
-      $("copy-value").select();
-      return;
-    }
-    button.replaceChildren(icon("copy"), "已複製");
-    notify("已複製" + label);
-    clearTimeout(button.restoreTimer);
-    button.restoreTimer = setTimeout(() => button.replaceChildren(icon("copy"), label === "優惠碼" ? "複製代碼" : "複製" + label), 1800);
-  }
-
   function storeCard(store, today) {
     const card = el("article", "card");
     const body = el("div", "card-body");
@@ -151,19 +116,6 @@
       actions.append(link);
     }
     stub.append(actions);
-    if (store.code && !isExpired) {
-      const label = store.codeLabel || "優惠碼";
-      const codeRow = el("div", "stub-row code-row");
-      const codeInfo = el("div", "code-info");
-      const isCode = label === "優惠碼" || /^[0-9A-Za-z][0-9A-Za-z._-]*$/.test(store.code);
-      codeInfo.append(el("span", "", label), el(isCode ? "code" : "span", "code-value", store.code));
-      const copy = el("button", "action copy");
-      copy.type = "button";
-      copy.append(icon("copy"), label === "優惠碼" ? "複製代碼" : "複製" + label);
-      copy.addEventListener("click", () => copyText(store.code, copy, label));
-      codeRow.append(codeInfo, copy);
-      bottom.append(codeRow);
-    }
     if (store.notes) bottom.append(el("p", "notes", store.notes));
     bottom.append(stub);
     card.append(body, bottom);
