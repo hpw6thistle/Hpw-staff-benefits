@@ -87,7 +87,9 @@
     const body = el("div", "card-body");
     const head = el("div", "card-head");
     const tags = el("div", "tags");
-    tags.append(el("span", "tag category", store.category));
+    const categoryTag = el("span", "tag category");
+    categoryTag.append(icon("brand"), store.category);
+    tags.append(categoryTag);
     if (store.owned) tags.append(el("span", "brand-badge", "集團品牌"));
     const heading = el("h2", "", store.name);
     for (const website of [store.website, store.url]) {
@@ -105,17 +107,14 @@
         break;
       } catch { /* 不完整的網址維持一般標題。 */ }
     }
-    const titleRow = el("div", "card-title-row");
     const toggle = el("button", "card-toggle");
     toggle.type = "button";
-    toggle.textContent = "展開";
-    toggle.setAttribute("aria-label", "展開 " + store.name + " 的優惠與門市資訊");
+    toggle.setAttribute("aria-label", store.name + " 的優惠與門市資訊");
     toggle.setAttribute("aria-expanded", "false");
     const details = el("div", "card-details");
     details.id = "store-details-" + store.id.toLowerCase();
     toggle.setAttribute("aria-controls", details.id);
-    titleRow.append(heading, toggle);
-    head.append(tags, titleRow);
+    head.append(tags, heading, toggle);
 
     const sharedExpiry = offers.every(entry => entry.expires === store.expires);
     const sharedNotes = offers.every(entry => entry.notes === store.notes);
@@ -165,8 +164,6 @@
     function toggleDetails() {
       if (!mobileCards.matches) return;
       const expanded = toggle.getAttribute("aria-expanded") === "true";
-      toggle.textContent = expanded ? "展開" : "收合";
-      toggle.setAttribute("aria-label", toggle.textContent + " " + store.name + " 的優惠與門市資訊");
       toggle.setAttribute("aria-expanded", String(!expanded));
       card.classList.toggle("is-expanded", !expanded);
       syncCardDetails(card);
