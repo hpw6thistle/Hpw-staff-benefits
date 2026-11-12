@@ -5,6 +5,7 @@
   const data = window.HAIPAWANG_STORES;
   const stores = Array.isArray(data) ? data : [];
   const elements = { search: $("keyword"), grade: $("grade"), region: $("region"), owned: $("owned"), cards: $("cards") };
+  const mobileCards = window.matchMedia("(max-width: 768px)");
   const categories = ["", "餐飲美食", "旅遊住宿", "生活購物"];
   const quickCategories = [
     { name: "集團品牌", owned: true, icon: "brand" },
@@ -72,6 +73,14 @@
     return expiry;
   }
 
+  function syncCardDetails(card) {
+    const details = card.querySelector(".card-details");
+    const toggle = card.querySelector(".card-toggle");
+    const collapsed = mobileCards.matches && toggle.getAttribute("aria-expanded") === "false";
+    if (collapsed && details.contains(document.activeElement)) toggle.focus();
+    details.inert = collapsed;
+  }
+
   function storeCard(offers, today) {
     const [store] = offers;
     const card = el("article", "card");
@@ -96,11 +105,20 @@
         break;
       } catch { /* 不完整的網址維持一般標題。 */ }
     }
-    head.append(tags, heading);
+    const titleRow = el("div", "card-title-row");
+    const toggle = el("button", "card-toggle");
+    toggle.type = "button";
+    toggle.setAttribute("aria-label", store.name + " 的優惠與門市資訊");
+    toggle.setAttribute("aria-expanded", "false");
+    const details = el("div", "card-details");
+    details.id = "store-details-" + store.id.toLowerCase();
+    toggle.setAttribute("aria-controls", details.id);
+    toggle.append(icon("chevron"));
+    titleRow.append(heading, toggle);
+    head.append(tags, titleRow);
 
     const sharedExpiry = offers.every(entry => entry.expires === store.expires);
     const sharedNotes = offers.every(entry => entry.notes === store.notes);
-    body.append(head);
     for (const entry of offers) {
       const offer = el("div", "offer");
       offer.append(el("span", "offer-grade", entry.grade || "全職級適用"), el("strong", "", entry.offer));
@@ -139,7 +157,31 @@
     stub.append(actions);
     if (sharedNotes && store.notes) bottom.append(el("p", "notes", store.notes));
     if (actions.childElementCount) bottom.append(stub);
-    card.append(body, bottom);
+    const detailsInner = el("div", "card-details-inner");
+    detailsInner.append(body, bottom);
+    details.append(detailsInner);
+    card.append(head, details);
+
+    function toggleDetails() {
+      if (!mobileCards.matches) return;
+      const expanded = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!expanded));
+      card.classList.toggle("is-expanded", !expanded);
+      syncCardDetails(card);
+    }
+
+    toggle.addEventListener("click", event => {
+      event.stopPropagation();
+      toggleDetails();
+    });
+    card.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", event => event.stopPropagation());
+    });
+    card.addEventListener("click", event => {
+      if (event.target.closest("a, button")) return;
+      toggleDetails();
+    });
+    syncCardDetails(card);
     return card;
   }
 
@@ -329,5 +371,8 @@
   }
   $("clear-top").addEventListener("click", reset);
   $("clear-empty").addEventListener("click", reset);
+  mobileCards.addEventListener("change", () => {
+    elements.cards.querySelectorAll(".card").forEach(syncCardDetails);
+  });
   restoreView(false);
 })();

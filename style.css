@@ -360,3 +360,49 @@ td:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 #maintenance-status:empty { display: none; }
 #maintenance-status { color: var(--stamp-dark); }
 .maintenance-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+.card-head { margin-bottom: 12px; }
+.card-details, .card-details-inner {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+.card-toggle { display: none; }
+
+@media (max-width: 768px) {
+  .card { align-self: start; cursor: pointer; }
+  .card-head { margin-bottom: 0; }
+  .card-title-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .card-toggle {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--control-radius);
+    background: transparent;
+    color: var(--stamp);
+  }
+  .card-toggle .icon { transition: transform .22s ease; }
+  .card.is-expanded .card-toggle .icon { transform: rotate(180deg); }
+  .card-details {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows .22s ease, visibility 0s linear .22s;
+  }
+  .card.is-expanded .card-details {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .card-details-inner { min-height: 0; overflow: hidden; }
+  .card-details .card-body { padding-top: 12px; }
+}
+
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .card-details, .card-toggle .icon { transition: none; }
+}
