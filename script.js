@@ -205,7 +205,7 @@
     view = next;
     $("landing-view").hidden = next === "search";
     $("directory").hidden = next === "home";
-    document.title = (next === "search" ? "特約商店查詢" : "員工專屬福利手冊") + "｜海霸王";
+    document.title = next === "search" ? "特約商店查詢｜海霸王" : "海霸王集團特約優惠";
     if (focus) {
       if (next === "home" && window.location.hash === "#quick-title") {
         $("quick-title").focus({ preventScroll: true });

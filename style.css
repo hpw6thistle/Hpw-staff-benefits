@@ -102,7 +102,18 @@ body:has(#landing-view:not([hidden])) {
 }
 .hero-banner h1 span { display: inline-block; }
 .hero-accent { color: var(--stamp); }
-.hero-intro { margin-top: 17px; color: var(--muted); font-size: clamp(.94rem, 1.5vw, 1.06rem); }
+.hero-titles { display: inline-grid; max-inline-size: 100%; }
+.hero-intro {
+  margin-top: 17px;
+  color: var(--muted);
+  container-type: inline-size;
+}
+.hero-intro span {
+  display: block;
+  font-size: clamp(11px, 5.8cqi, 1.06rem);
+  text-align: justify;
+  text-align-last: justify;
+}
 .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
 .hero-actions .hero-cta { min-height: 49px; padding-inline: 16px; font-size: .91rem; }
 .hero-cta span { margin-left: 7px; }
