@@ -4,12 +4,21 @@
   const $ = (id) => document.getElementById(id);
   const data = window.HAIPAWANG_STORES;
   const stores = Array.isArray(data) ? data : [];
-  const elements = { search: $("search"), grade: $("grade"), region: $("region"), owned: $("owned"), cards: $("cards") };
+  const elements = { search: $("keyword"), grade: $("grade"), region: $("region"), owned: $("owned"), cards: $("cards") };
   const categoryOrder = ["餐飲美食", "旅遊住宿", "生活購物", "休閒娛樂", "醫療保健"];
-  const categories = ["", ...new Set([...categoryOrder, ...stores.map(s => s.category).filter(Boolean)])];
+  const combinedCategory = "休閒與醫療";
+  const categories = ["", ...new Set([...categoryOrder, ...stores.map(s => s.category).filter(Boolean), combinedCategory])];
+  const quickCategories = [
+    { name: "集團品牌專屬", owned: true },
+    { name: "餐飲美食", category: "餐飲美食" },
+    { name: "旅遊住宿", category: "旅遊住宿" },
+    { name: "生活購物", category: "生活購物" },
+    { name: combinedCategory, category: combinedCategory },
+  ];
   const regionOrder = ["台北市", "新北市", "桃園市", "台中市", "高雄市"];
   let category = "";
   let toastTimer;
+  let view;
 
   // 建立節點時使用 textContent，讓資料中的 HTML 符號只會以文字顯示。
   function el(tag, className, text) {
@@ -36,6 +45,11 @@
 
   function normalize(value) {
     return String(value ?? "").normalize("NFKC").toLocaleLowerCase("zh-TW").replaceAll("臺", "台");
+  }
+
+  function matchesCategory(store, selected) {
+    if (selected === combinedCategory) return ["休閒娛樂", "醫療保健", combinedCategory].includes(store.category);
+    return !selected || store.category === selected;
   }
 
   function taipeiToday() {
@@ -92,7 +106,7 @@
     const head = el("div", "card-head");
     const tags = el("div", "tags");
     tags.append(el("span", "tag category", store.category), el("span", "tag", regionName(store.region)));
-    if (store.owned) tags.append(el("span", "tag", "集團品牌"));
+    if (store.owned) tags.append(el("span", "tag owned", "集團品牌"));
     if (store.demo) tags.append(el("span", "tag demo-tag", "範例"));
     head.append(tags, el("h2", "", store.name));
 
@@ -164,7 +178,7 @@
       if (targeted || (!store.grade && !applicable.has(store.id))) applicable.set(store.id, store);
     }
     const filtered = [...applicable.values()].filter(store => {
-      if (category && store.category !== category) return false;
+      if (!matchesCategory(store, category)) return false;
       if (region && regionName(store.region) !== region) return false;
       if (owned && !store.owned) return false;
       const haystack = normalize([store.name, store.offer, store.address, store.notes, store.region].join(" "));
@@ -183,23 +197,117 @@
     });
   }
 
+  function applyFilters(filters = {}) {
+    category = categories.includes(filters.category) ? filters.category : "";
+    elements.search.value = filters.keyword || "";
+    elements.grade.value = filters.grade || "";
+    elements.region.value = filters.region || "";
+    elements.owned.checked = Boolean(filters.owned);
+    if (Array.isArray(data)) render();
+  }
+
+  function currentFilters() {
+    return { category, keyword: elements.search.value, grade: elements.grade.value, region: elements.region.value, owned: elements.owned.checked };
+  }
+
+  function saveFilters() {
+    if (view === "search") window.history.replaceState({ benefits: currentFilters() }, "");
+  }
+
+  function viewFromHash() {
+    return window.location.hash === "#search" ? "search" : "home";
+  }
+
+  function displayView(next, { focus = false, guide = false } = {}) {
+    view = next;
+    $("landing-view").hidden = next === "search";
+    $("directory").hidden = next === "home";
+    document.title = (next === "search" ? "特約商店查詢" : "員工專屬福利手冊") + "｜海霸王";
+    if (guide) {
+      $("guide").focus({ preventScroll: true });
+      $("guide").scrollIntoView({ block: "start" });
+    } else if (focus) {
+      window.scrollTo(0, 0);
+      $(next === "search" ? "search-title" : "landing-title").focus({ preventScroll: true });
+    }
+  }
+
+  function navigate(next, { filters, guide = false } = {}) {
+    const changed = next !== view;
+    if (changed) saveFilters();
+    if (next === "search" && (changed || filters)) applyFilters(filters);
+    const state = next === "search" ? { benefits: currentFilters() } : {};
+    const hash = next === "search" ? "#search" : "#home";
+    // 視圖切換才新增一筆紀錄；篩選與同頁操作用 replaceState，返回鍵可一次回到首頁。
+    if (changed) window.history.pushState(state, "", hash);
+    else window.history.replaceState(state, "", hash);
+    displayView(next, { focus: changed, guide });
+  }
+
+  function restoreView(focus) {
+    const next = viewFromHash();
+    if (next === "search") applyFilters(window.history.state?.benefits);
+    displayView(next, { focus });
+  }
+
+  function bindLink(id, action) {
+    $(id).addEventListener("click", event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button > 0) return;
+      event.preventDefault();
+      action();
+    });
+  }
+
+
+  function renderQuickLinks() {
+    for (const entry of quickCategories) {
+      const total = new Set(stores.filter(store => entry.owned ? store.owned : matchesCategory(store, entry.category)).map(store => store.id)).size;
+      const link = el("a", "quick-tile" + (entry.owned ? " owned-tile" : ""));
+      link.href = "#search";
+      const label = el("span");
+      label.append(el("strong", "", entry.name), el("small", "", total + " 間門市"));
+      const arrow = el("span", "", "→");
+      arrow.setAttribute("aria-hidden", "true");
+      link.append(label, arrow);
+      link.addEventListener("click", event => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button > 0) return;
+        event.preventDefault();
+        navigate("search", { filters: { owned: entry.owned, category: entry.category } });
+      });
+      $("quick-categories").append(link);
+    }
+  }
+
   function reset() {
-    category = "";
-    elements.search.value = "";
-    elements.grade.value = "";
-    elements.region.value = "";
-    elements.owned.checked = false;
-    render();
+    applyFilters();
+    saveFilters();
     elements.search.focus();
   }
+
+  bindLink("home-link", () => navigate("home"));
+  bindLink("enter-search", () => navigate("search", { filters: {} }));
+  bindLink("guide-link", () => navigate("search", { guide: true }));
+  $("landing-grade").addEventListener("change", event => {
+    const grade = event.target.value;
+    if (!grade) return;
+    event.target.value = "";
+    navigate("search", { filters: { grade } });
+  });
+  window.addEventListener("popstate", () => restoreView(true));
+  window.addEventListener("hashchange", () => {
+    if (viewFromHash() !== view) restoreView(true);
+  });
+  renderQuickLinks();
 
   if (!Array.isArray(data)) {
     $("count").textContent = "商店資料未載入";
     $("empty-title").textContent = "目前無法載入商店資料";
-    $("empty-text").textContent = "請重新整理；若仍無法載入，請聯絡資料維護人員。";
+    $("empty-text").textContent = "請重新整理，或聯絡資料維護人員。";
     $("clear-empty").hidden = true;
     $("empty").hidden = false;
     Object.values(elements).forEach(node => { if ("disabled" in node) node.disabled = true; });
+    $("landing-grade").disabled = true;
+    displayView(viewFromHash());
     return;
   }
 
@@ -208,7 +316,11 @@
     const option = el("option", "", grade);
     option.value = grade;
     elements.grade.append(option);
+    const shortcut = el("option", "", grade);
+    shortcut.value = grade;
+    $("landing-grade").append(shortcut);
   }
+  $("landing-grade").disabled = $("landing-grade").options.length === 1;
   const regions = [...new Set(stores.map(store => regionName(store.region)).filter(Boolean))];
   const ordered = [...regionOrder.filter(region => regions.includes(region)), ...regions.filter(region => !regionOrder.includes(region)).sort((a,b) => a.localeCompare(b, "zh-TW"))];
   for (const region of ordered) {
@@ -221,14 +333,15 @@
     chip.type = "button";
     chip.value = label;
     chip.textContent = label || "全部類別";
-    chip.addEventListener("click", () => { category = label; render(); });
+    chip.addEventListener("click", () => { category = label; render(); saveFilters(); });
     $("categories").append(chip);
   }
   elements.search.addEventListener("input", render);
-  elements.grade.addEventListener("change", render);
-  elements.region.addEventListener("change", render);
-  elements.owned.addEventListener("change", render);
+  elements.search.addEventListener("change", saveFilters);
+  for (const control of [elements.grade, elements.region, elements.owned]) {
+    control.addEventListener("change", () => { render(); saveFilters(); });
+  }
   $("clear-top").addEventListener("click", reset);
   $("clear-empty").addEventListener("click", reset);
-  render();
+  restoreView(false);
 })();

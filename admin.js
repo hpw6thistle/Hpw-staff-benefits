@@ -126,6 +126,8 @@
       list.append(row);
     }
     $("preview-body").replaceChildren(list);
+    $("preview-label").textContent = stores.length > 12 ? "預覽前 12 筆" : "預覽 " + stores.length + " 筆";
+    $("preview").open = true;
     $("preview").hidden = false;
   }
 
@@ -147,10 +149,11 @@
     const file = event.target.files[0];
     imported = null;
     $("download").disabled = true;
+    $("save-status").textContent = "完成匯入後即可下載";
     $("preview").hidden = true;
     setErrors([]);
-    if (!file) { $("import-status").textContent = "尚未選取檔案。"; return; }
-    $("import-status").textContent = "正在檢查資料…";
+    if (!file) { $("import-status").textContent = "尚未選取檔案"; return; }
+    $("import-status").textContent = "檢查中…";
     let result;
     try {
       if (file.size > 5 * 1024 * 1024) throw new Error("檔案超過 5 MB，請檢查是否為正確的店家 CSV。");
@@ -166,14 +169,16 @@
       return;
     }
     imported = result.stores;
-    $("import-status").textContent = "已驗證 " + imported.length + " 筆，可下載更新檔。" + (imported.length > 12 ? "下方預覽前 12 筆。" : "");
+    $("import-status").textContent = "已驗證 " + imported.length + " 筆";
     preview(imported);
     $("download").disabled = false;
+    $("save-status").textContent = "可以下載";
   });
   $("download").addEventListener("click", () => {
     if (!imported) return;
     const comments = "/*\n * 海霸王員工特約商店：一個 { ... } 代表一個門市優惠。\n * 新增時複製完整的一筆，兩筆之間要有逗號；保留雙引號、括號及檔尾分號。\n * id：門市的識別值，用英數字、連字號或底線；name：員工看到的店名（可含分店名）。\n * grade：留空表示通用；有職級專屬優惠時複製同一門市列，沿用 id，填上職級名稱。\n * 同一 id 與 grade 的組合只能有一筆。選擇職級時，未到期的專屬優惠優先顯示。\n * category：餐飲美食／生活購物／休閒娛樂／醫療保健／旅遊住宿。\n * region：縣市全名，例如「台北市」；篩選器會從資料自動產生。\n * owned：集團品牌填 true，外部合作商店填 false（不加引號）。\n * offer：主要優惠；expires：西元 YYYY-MM-DD；到期當日仍有效，空白代表未提供。\n * address：門市地址；phone：門市電話（可空白，請保留前面的 0）。\n * code：欲複製的優惠碼、統編或注意事項；codeLabel：優惠碼／結帳資訊，可留空。\n * notes：限制與使用方式；placeId：Google Maps Place ID（可留空）。\n * demo：範例填 true。確認優惠、公開授權與門市資訊後，正式資料填 false。\n * 無內容的文字欄位用 \"\"；保留欄位名稱。要用 Excel 批次維護，開啟 admin.html。\n */";
     const source = JSON.stringify(imported, null, 2).replaceAll("<", "\\u003c");
     download("data.js", comments + "\nwindow.HAIPAWANG_STORES = " + source + ";\n", "text/javascript;charset=utf-8");
+    $("save-status").textContent = "已下載，請替換 GitHub 上的檔案";
   });
 })();

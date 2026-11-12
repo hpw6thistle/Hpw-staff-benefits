@@ -4,12 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="依店名、優惠、類別和地區查詢海霸王員工特約商店。">
-  <meta name="theme-color" content="#F7F6F2">
+  <meta name="theme-color" content="#FAF8F5">
   <title>員工特約商店｜海霸王員工福利站</title>
   <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=handbook-1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&amp;family=Noto+Serif+TC:wght@600;700&amp;display=swap">
+  <link rel="stylesheet" href="style.css?v=perks-2">
   <script defer src="data.js"></script>
-  <script defer src="script.js?v=handbook-1"></script>
+  <script defer src="script.js?v=perks-2"></script>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
@@ -23,16 +26,44 @@
   <a class="skip" href="#main">跳至主要內容</a>
   <header class="topbar">
     <div class="shell topbar-inner">
-      <a class="brand" href="./index.html"><img src="assets/mark.svg" alt="" width="30" height="30"><strong>海霸王</strong></a>
-      <h1 id="page-title">員工特約商店</h1>
-      <a class="help" href="#guide">使用規範</a>
+      <a class="brand" id="home-link" href="#home">
+        <span class="brand-seal" aria-hidden="true">海</span><strong>海霸王</strong><span class="brand-area">特約商店專區</span>
+      </a>
+      <nav class="nav-links" aria-label="網站導覽">
+        <a class="help" href="https://docs.google.com/forms/d/e/1FAIpQLSf23cCO9rtEwcr4myNRW2lUSWQVxX0NwMOzlpYVgqc8DdCyCg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">許願池 <span aria-hidden="true">↗</span></a>
+        <a class="help" id="guide-link" href="#guide">使用規範</a>
+      </nav>
     </div>
   </header>
-  <main id="main" class="shell">
-    <section id="directory" aria-label="查找特約商店">
+  <main id="main" tabindex="-1">
+    <div id="landing-view">
+      <section class="shell hero-banner" aria-labelledby="landing-title">
+        <div class="hero-inner">
+          <p class="hero-kicker">海霸王企業集團 <span aria-hidden="true">｜</span> 員工專屬福利手冊</p>
+          <h1 id="landing-title" tabindex="-1">集團與特約優惠</h1>
+          <p class="hero-intro">查詢餐飲、住宿與生活優惠。</p>
+          <div class="hero-actions">
+            <a class="primary hero-cta" id="enter-search" href="#search">進入特約商店查詢 <span aria-hidden="true">→</span></a>
+            <div class="landing-grade">
+              <label class="sr-only" for="landing-grade">依我的職級查詢</label>
+              <select id="landing-grade"><option value="" selected disabled>依我的職級查詢</option></select>
+              <svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg>
+            </div>
+          </div>
+          <noscript><p class="no-js">請啟用 JavaScript 以查詢。</p></noscript>
+        </div>
+      </section>
+      <section class="shell quick-section" aria-labelledby="quick-title">
+        <h2 id="quick-title">依類別查詢</h2>
+        <div id="quick-categories" class="quick-grid"></div>
+      </section>
+    </div>
+
+    <section class="shell" id="directory" aria-labelledby="search-title" hidden>
+      <div class="directory-heading"><h1 id="search-title" tabindex="-1">特約商店查詢</h1></div>
       <div class="filters">
         <div class="filter-row">
-          <div class="search-box"><svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg><label class="sr-only" for="search">搜尋店名、優惠或地址</label><input id="search" type="search" placeholder="搜尋店名、優惠或地址" autocomplete="off" maxlength="120"></div>
+          <div class="search-box"><svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg><label class="sr-only" for="keyword">搜尋店名、優惠或地址</label><input id="keyword" type="search" placeholder="搜尋店名、優惠或地址" autocomplete="off" maxlength="120"></div>
           <div class="grade-box">
             <label for="grade">員工職級</label>
             <select id="grade" aria-describedby="grade-help"><option value="">全職級通用</option></select>
@@ -43,18 +74,23 @@
         <p class="sr-only" id="grade-help">沒有職級專屬方案時，顯示通用優惠。</p>
         <div id="categories" class="categories" role="group" aria-label="依商店類別篩選"></div>
       </div>
-      <div class="guide" id="guide">
-        <p><strong>使用規範</strong> 結帳前出示員工證。訂位或訂房時，請先確認適用條件。</p>
-        <span id="demo" class="demo" hidden>範例資料，不可兌換</span>
+      <div class="guide" id="guide" tabindex="-1">
+        <p>結帳前出示員工證。訂位、訂房時先確認優惠。</p>
+        <span id="demo" class="demo" hidden>範例，僅供參考</span>
       </div>
       <div class="results-bar"><p id="count" role="status">正在載入商店…</p><div class="result-tools"><button type="button" class="text-button" id="clear-top" hidden>清除篩選條件</button><label class="check"><input type="checkbox" id="owned"> 只看集團品牌</label></div></div>
-      <noscript><p class="empty">請啟用 JavaScript 以使用商店查詢。</p></noscript>
       <div id="cards" class="cards"></div>
-      <div id="empty" class="empty" hidden><h2 id="empty-title">找不到符合條件的特約商店</h2><p id="empty-text">試試其他關鍵字，或清除篩選條件查看全部商店。</p><button type="button" class="primary" id="clear-empty">清除篩選條件</button></div>
+      <div id="empty" class="empty" hidden><h2 id="empty-title">找不到符合條件的特約商店</h2><p id="empty-text">換個關鍵字，或清除篩選。</p><button type="button" class="primary" id="clear-empty">清除篩選</button></div>
+    </section>
+    <section class="shell wish" aria-labelledby="wish-title">
+      <div class="wish-card">
+        <div><h2 id="wish-title">許願池</h2><p>推薦想加入的特約商店。</p></div>
+        <a class="primary" href="https://docs.google.com/forms/d/e/1FAIpQLSf23cCO9rtEwcr4myNRW2lUSWQVxX0NwMOzlpYVgqc8DdCyCg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">填寫表單 <span aria-hidden="true">↗</span></a>
+      </div>
     </section>
   </main>
   <footer class="footer"><div class="shell footer-inner"><span>海霸王 · 員工福利站</span><a href="admin.html">資料維護</a></div></footer>
   <div id="toast" class="toast" role="status" aria-atomic="true"></div>
-  <dialog id="copy-dialog"><form method="dialog"><h2>手動複製</h2><p>瀏覽器未允許自動複製，請複製以下文字。</p><textarea id="copy-value" readonly aria-label="要複製的文字"></textarea><button class="primary">關閉</button></form></dialog>
+  <dialog id="copy-dialog"><form method="dialog"><h2>手動複製</h2><textarea id="copy-value" readonly aria-label="要複製的文字"></textarea><button class="primary">關閉</button></form></dialog>
 </body>
 </html>

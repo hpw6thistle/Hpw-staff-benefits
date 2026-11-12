@@ -5,47 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>資料維護｜海霸王員工福利站</title>
   <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=perks-2">
   <script defer src="data.js"></script>
-  <script defer src="admin.js"></script>
+  <script defer src="admin.js?v=perks-2"></script>
 </head>
 <body>
   <header class="topbar"><div class="shell topbar-inner">
-    <a class="brand" href="index.html"><img src="assets/mark.svg" alt="" width="40" height="40"><span><strong>海霸王</strong><small>員工福利站</small></span></a>
-    <a class="help" href="index.html">返回查詢</a>
+    <a class="brand" href="index.html"><span class="brand-seal" aria-hidden="true">海</span><strong>海霸王</strong><span class="brand-area">員工福利站</span></a>
+    <a class="help" href="index.html#search">返回查詢</a>
   </div></header>
   <main class="shell admin">
-    <p class="eyebrow">HR / 福委會</p>
-    <h1>特約商店資料維護</h1>
-    <p>使用 Excel 批次編輯商店。匯入與檢查都在目前的瀏覽器完成；替換並重新部署 <code>data.js</code> 後，查詢頁才會更新。</p>
-    <noscript><p>請啟用 JavaScript 才能匯出與匯入資料。</p></noscript>
-    <section aria-labelledby="export-title">
-      <h2 id="export-title">1. 匯出並用 Excel 編輯</h2>
-      <ol>
-        <li>下載目前資料或空白範本。Excel 請使用「資料 → 從文字/CSV」匯入，以 UTF-8 讀取，將門市 ID、電話、優惠碼及有效期限欄設為文字，避免開頭的 0 被省略或日期改格式。</li>
-        <li>每列填一個優惠，保留標題列。「適用職級」留空代表通用；同一間門市有職級專屬優惠時，複製該列、沿用門市 ID，再填入職級與優惠條件。同一門市的同一職級只能有一列。</li>
-        <li>「集團品牌」和「範例資料」填「是」或「否」。確認優惠及公開權限後，再把範例改為正式資料。</li>
-        <li>編輯後另存為「CSV UTF-8（逗號分隔）」，再於下方匯入。下載的檔名可自行調整。</li>
-      </ol>
-      <div class="controls"><button type="button" id="export" class="primary">匯出目前資料（CSV）</button><button type="button" id="template" class="action">下載空白範本</button></div>
-    </section>
-    <section aria-labelledby="import-title">
-      <h2 id="import-title">2. 匯入並檢查</h2>
-      <label for="csv">選取 Excel 另存的 UTF-8 CSV（整批替換）</label>
-      <input type="file" id="csv" accept=".csv,text/csv">
-      <p id="import-status" role="status">尚未選取檔案。</p>
-      <ul id="import-errors" class="error" aria-label="匯入錯誤" hidden></ul>
-      <div id="preview" hidden>
-        <div class="table-wrap" tabindex="0" role="region" aria-label="匯入資料預覽">
-          <table><thead><tr><th scope="col">店名</th><th scope="col">類別</th><th scope="col">地區</th><th scope="col">適用職級</th><th scope="col">優惠</th><th scope="col">有效期限</th></tr></thead><tbody id="preview-body"></tbody></table>
-        </div>
-      </div>
-    </section>
-    <section aria-labelledby="save-title">
-      <h2 id="save-title">3. 下載更新檔</h2>
-      <p>匯入成功後，將下載的 <code>data.js</code> 替換至 GitHub 儲存庫，並等候 GitHub Pages 重新部署。</p>
-      <div class="controls"><button id="download" type="button" class="primary" disabled>下載 data.js</button></div>
-    </section>
+    <h1>優惠資料維護</h1>
+    <p class="admin-intro">下載 CSV，在 Excel 編輯後匯回。</p>
+    <noscript><p>請啟用 JavaScript。</p></noscript>
+    <ol class="admin-steps">
+      <li class="admin-step" aria-labelledby="export-title">
+        <h2 id="export-title">下載與編輯</h2>
+        <p>用 Excel 編輯，另存為 CSV UTF-8。</p>
+        <div class="controls"><button type="button" id="export" class="primary">下載目前資料</button><button type="button" id="template" class="action">下載空白範本</button></div>
+        <details class="excel-help">
+          <summary>Excel 欄位說明</summary>
+          <ul>
+            <li>用「資料 → 從文字/CSV」開檔。門市 ID、電話、代碼與日期欄選「文字」，保留開頭的 0。</li>
+            <li>保留標題列。每列一項優惠，職級留空代表通用。同一門市沿用門市 ID，各職級限一列。</li>
+            <li>「集團品牌」和「範例資料」填「是」或「否」。</li>
+          </ul>
+        </details>
+      </li>
+      <li class="admin-step" aria-labelledby="import-title">
+        <h2 id="import-title">匯入與預覽</h2>
+        <p id="csv-help">匯入會整批取代優惠，請使用完整清單。</p>
+        <label class="sr-only" for="csv">選擇 CSV 檔案</label>
+        <input type="file" id="csv" accept=".csv,text/csv" aria-describedby="csv-help">
+        <p id="import-status" role="status">尚未選取檔案</p>
+        <ul id="import-errors" class="error" aria-label="匯入錯誤" hidden></ul>
+        <details id="preview" open hidden>
+          <summary id="preview-label">預覽</summary>
+          <div class="table-wrap" tabindex="0" role="region" aria-label="匯入資料預覽">
+            <table><thead><tr><th scope="col">店名</th><th scope="col">類別</th><th scope="col">地區</th><th scope="col">適用職級</th><th scope="col">優惠</th><th scope="col">有效期限</th></tr></thead><tbody id="preview-body"></tbody></table>
+          </div>
+        </details>
+      </li>
+      <li class="admin-step" aria-labelledby="save-title">
+        <h2 id="save-title">更新網站</h2>
+        <p>下載更新檔，替換 GitHub 上的 <code>data.js</code>。</p>
+        <div class="controls"><button id="download" type="button" class="primary" disabled>下載 data.js</button><span id="save-status">完成匯入後即可下載</span></div>
+      </li>
+    </ol>
   </main>
 </body>
 </html>
