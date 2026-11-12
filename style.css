@@ -76,33 +76,15 @@ body:has(#landing-view:not([hidden])) {
   min-height: calc(100vh - var(--site-chrome-height, 69px));
   min-height: calc(100svh - var(--site-chrome-height, 69px));
   padding-block: clamp(76px, 11svh, 96px); text-align: center;
-  /* 有正式照片時，可啟用下行並移除 .hero-shadows。 */
-  /* background-image: url("assets/monstera-shadow-bg.jpg"); */
-  background-size: cover; background-position: center;
+  background-image: url("assets/image_7c2cbfab.jpg");
+  background-size: cover; background-position: center; background-repeat: no-repeat;
   overflow: clip;
 }
 .hero-banner::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: radial-gradient(circle at center, rgba(250, 248, 245, 0.88) 0%, rgba(242, 238, 232, 0.55) 100%);
 }
-.hero-shadows { position: absolute; inset: 0; z-index: -2; pointer-events: none; }
-.hero-shadows::before, .hero-shadows::after {
-  content: ""; position: absolute; width: clamp(240px, 41vw, 580px); aspect-ratio: 1;
-  background: center / contain no-repeat;
-  filter: blur(18px); opacity: 0.08;
-}
-.hero-shadows::before {
-  inset-block-start: -16%; inset-inline-start: -8%;
-  background-image: url("assets/hero-window-shadow.svg");
-  transform: rotate(-15deg);
-}
-.hero-shadows::after {
-  inset-block-end: -17%; inset-inline-end: -9%;
-  background-image: url("assets/hero-monstera-shadow.svg");
-  transform: rotate(-12deg);
-}
 .hero-inner { position: relative; z-index: 1; min-width: 0; }
-.hero-eyebrow { margin-bottom: 16px; color: #8C8582; font-size: 13px; letter-spacing: .15em; }
 .hero-banner h1 {
   font-family: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
   font-size: clamp(32px, 6vw, 64px);
