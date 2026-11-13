@@ -5,7 +5,7 @@
  * grade：留空表示通用；有職級專屬優惠時複製同一門市列，沿用 id，填上「員工」或「主管」。
  * 同一 id 與 grade 的組合只能有一筆。選擇職級時，未到期的專屬優惠優先顯示。
  * category：餐飲美食／生活購物／旅遊住宿。
- * region：縣市全名、全台或線上，例如「台北市」；篩選器會從資料自動產生。
+ * region：現行 22 縣市之一。既有跨區或線上方案留空，僅在全部地區顯示。
  * owned：集團品牌填 true，外部合作商店填 false（不加引號）。
  * offer：主要優惠；expires：西元 YYYY-MM-DD；到期當日仍有效，空白代表未提供。
  * address：門市地址（全台或線上方案可空白）；phone：門市電話（可空白，請保留前面的 0）。
@@ -771,7 +771,7 @@ window.HAIPAWANG_STORES = [
     "id": "ST-UBER-001",
     "name": "Uber / Uber Eats 企業員工福利專案",
     "category": "生活購物",
-    "region": "線上",
+    "region": "",
     "owned": false,
     "offer": "提供符合資格員工一年免費 Uber One 會員資格。\n1. 符合資格的 Uber Eats 訂單享免運優惠。\n2. 搭乘 Uber 可享 5% 回饋（依企業方案通知）。\n3. 每季另享不定期加碼外送及乘車優惠。",
     "expires": "",
@@ -787,7 +787,7 @@ window.HAIPAWANG_STORES = [
     "id": "ST-Travel-001",
     "name": "易遊網 (ezTravel)",
     "category": "旅遊住宿",
-    "region": "線上",
+    "region": "",
     "owned": false,
     "offer": "提供企業會員個人旅遊專屬優惠（如訂房、國內外旅遊、高鐵、機票等）",
     "expires": "",
@@ -899,7 +899,7 @@ window.HAIPAWANG_STORES = [
     "id": "hpw2026049",
     "name": "Woosa 洋食鬆餅屋全台分店",
     "category": "餐飲美食",
-    "region": "全台",
+    "region": "",
     "owned": false,
     "offer": "A套餐：湯品（附麵包）或 130 元內飲品（二選一）免費升級。\nB套餐：湯品（附麵包）或沙拉（二選一）＋130 元內飲品，100 元（原價 198 元）。\nC套餐：130 元內飲品＋360 元內任一鬆餅，200 元（原價 298 元）。",
     "expires": "2027-12-31",

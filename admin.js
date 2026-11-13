@@ -6,7 +6,8 @@
     ["offer","優惠內容"], ["expires","有效期限"], ["address","地址"], ["phone","電話"],
     ["notes","注意事項"], ["placeId","Google Maps Place ID"], ["demo","範例資料"], ["grade","適用職級"], ["website","官網網址"]
   ];
-  const required = ["id", "name", "category", "region", "offer"];
+  const required = ["id", "name", "category", "offer"];
+  const existingNonLocalIds = new Set(["st-uber-001", "st-travel-001", "hpw2026049"]);
   const allowedCategories = ["餐飲美食", "旅遊住宿", "生活購物"];
   const header = columns.map(([, label]) => label);
   const bools = new Set(["owned", "demo"]);
@@ -103,10 +104,12 @@
       if (seen.has(key)) fail("同一門市的適用職級重複：" + store.id + "（" + (store.grade || "通用") + "）。");
       seen.add(key);
       if (store.category && !allowedCategories.includes(store.category)) fail("類別請填：" + allowedCategories.join("、") + "。");
-      const nonLocal = ["全台", "線上"].includes(store.region);
-      if (!nonLocal && !store.address) fail("「地址」不可空白。");
-      if (store.region && !nonLocal && !/^[\p{Script=Han}]{2,4}[縣市]$/u.test(store.region)) fail("地區請填完整縣市名、「全台」或「線上」。");
       store.region = store.region.replaceAll("臺", "台");
+      const existingNonLocal = !store.region && existingNonLocalIds.has(store.id.toLowerCase());
+      if (!existingNonLocal && !window.HAIPAWANG_COUNTIES.includes(store.region)) {
+        fail("地區請填現行 22 縣市之一，例如「台北市」。");
+      }
+      if (!existingNonLocal && !store.address) fail("「地址」不可空白。");
       store.expires = normalizeDate(store.expires);
       if (store.expires === null) fail("有效期限請填有效西元日期（YYYY-MM-DD），或留空。");
       if (store.placeId && !/^[a-zA-Z0-9_-]+$/.test(store.placeId)) fail("Place ID 請貼上 Google 提供的 ID，勿填地圖網址。");
@@ -189,7 +192,7 @@
   });
   $("download").addEventListener("click", () => {
     if (!imported) return;
-    const comments = "/*\n * 海霸王員工特約商店：一個 { ... } 代表一個門市優惠。\n * 新增時複製完整的一筆，兩筆之間要有逗號；保留雙引號、括號及檔尾分號。\n * id：門市的識別值，用英數字、連字號或底線；name：員工看到的店名（可含分店名）。\n * grade：留空表示通用；有職級專屬優惠時複製同一門市列，沿用 id，填上「員工」或「主管」。\n * 同一 id 與 grade 的組合只能有一筆。選擇職級時，未到期的專屬優惠優先顯示。\n * category：餐飲美食／生活購物／旅遊住宿。\n * region：縣市全名、全台或線上，例如「台北市」；篩選器會從資料自動產生。\n * owned：集團品牌填 true，外部合作商店填 false（不加引號）。\n * offer：主要優惠；expires：西元 YYYY-MM-DD；到期當日仍有效，空白代表未提供。\n * address：門市地址（全台或線上方案可空白）；phone：門市電話（可空白，請保留前面的 0）。\n * website：官網網址，可留空。\n * notes：限制與使用方式；placeId：Google Maps Place ID（可留空）。\n * demo：範例填 true。確認優惠、公開授權與門市資訊後，正式資料填 false。\n * 無內容的文字欄位用 \"\"；保留欄位名稱。要用 Excel 批次維護，開啟 admin.html。\n */";
+    const comments = "/*\n * 海霸王員工特約商店：一個 { ... } 代表一個門市優惠。\n * 新增時複製完整的一筆，兩筆之間要有逗號；保留雙引號、括號及檔尾分號。\n * id：門市的識別值，用英數字、連字號或底線；name：員工看到的店名（可含分店名）。\n * grade：留空表示通用；有職級專屬優惠時複製同一門市列，沿用 id，填上「員工」或「主管」。\n * 同一 id 與 grade 的組合只能有一筆。選擇職級時，未到期的專屬優惠優先顯示。\n * category：餐飲美食／生活購物／旅遊住宿。\n * region：現行 22 縣市之一。既有跨區或線上方案留空，僅在全部地區顯示。\n * owned：集團品牌填 true，外部合作商店填 false（不加引號）。\n * offer：主要優惠；expires：西元 YYYY-MM-DD；到期當日仍有效，空白代表未提供。\n * address：門市地址（全台或線上方案可空白）；phone：門市電話（可空白，請保留前面的 0）。\n * website：官網網址，可留空。\n * notes：限制與使用方式；placeId：Google Maps Place ID（可留空）。\n * demo：範例填 true。確認優惠、公開授權與門市資訊後，正式資料填 false。\n * 無內容的文字欄位用 \"\"；保留欄位名稱。要用 Excel 批次維護，開啟 admin.html。\n */";
     const source = JSON.stringify(imported, null, 2).replaceAll("<", "\\u003c");
     download("data.js", comments + "\nwindow.HAIPAWANG_STORES = " + source + ";\n", "text/javascript;charset=utf-8");
     $("save-status").textContent = "已下載，請替換 GitHub 上的檔案";

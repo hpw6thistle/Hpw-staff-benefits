@@ -13,7 +13,6 @@
     { name: "旅遊住宿", category: "旅遊住宿", icon: "stay" },
     { name: "生活購物", category: "生活購物", icon: "shopping" },
   ];
-  const regionOrder = ["台北市", "新北市", "桃園市", "台中市", "高雄市"];
   let category = "";
   let view;
 
@@ -69,7 +68,7 @@
       const date = el("time", "", store.expires.replaceAll("-", "/"));
       date.dateTime = store.expires;
       expiry.append(el("span", "", expired ? "已到期" : "有效至"), date);
-    } else expiry.textContent = store.region === "線上" ? "有效期限依方案說明" : "有效期限請洽門市";
+    } else expiry.textContent = !store.region ? "有效期限依方案說明" : "有效期限請洽門市";
     return expiry;
   }
 
@@ -127,7 +126,7 @@
     }
     const meta = el("div", "meta");
     const address = el("address");
-    if (store.address || !["全台", "線上"].includes(store.region)) {
+    if (store.address || store.region) {
       address.append(icon("pin"), store.address || "地址請洽門市");
       meta.append(address);
     }
@@ -350,9 +349,7 @@
     return;
   }
 
-  const regions = [...new Set(stores.map(store => regionName(store.region)).filter(Boolean))];
-  const ordered = [...regionOrder.filter(region => regions.includes(region)), ...regions.filter(region => !regionOrder.includes(region)).sort((a,b) => a.localeCompare(b, "zh-TW"))];
-  for (const region of ordered) {
+  for (const region of window.HAIPAWANG_COUNTIES) {
     const option = el("option", "", region);
     option.value = region;
     elements.region.append(option);

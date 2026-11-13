@@ -9,9 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&amp;family=Noto+Sans+TC:wght@400..800&amp;display=swap">
   <link rel="stylesheet" href="style.css?v=perks-17">
-  <script defer src="data.js?v=partner-stores-1"></script>
+  <script defer src="counties.js?v=1"></script>
+  <script defer src="data.js?v=counties-1"></script>
   <script defer src="auth.js?v=perks-13"></script>
-  <script defer src="admin.js?v=partner-stores-1"></script>
+  <script defer src="admin.js?v=counties-1"></script>
 </head>
 <body hidden data-maintenance-page>
   <header class="topbar"><div class="shell topbar-inner">
@@ -32,7 +33,7 @@
           <ul>
             <li>用「資料 → 從文字/CSV」開檔。門市 ID、電話與日期欄選「文字」，保留開頭的 0。</li>
             <li>保留標題列。每列一項優惠，適用職級可留空（全員工適用），或填「員工」或「主管」。類別只接受「餐飲美食」「旅遊住宿」「生活購物」。同一門市沿用門市 ID，各職級限一列。</li>
-            <li>地區請填縣市全名，例如「台北市」。地區與適用職級欄均不接受 <code>all</code>。</li>
+            <li>地區限現行 22 縣市，例如「台北市」。「全部地區」僅供查詢使用。既有 Uber、易遊網、Woosa 跨區方案的地區可留空。</li>
             <li>「集團品牌」和「範例資料」填「是」或「否」。</li>
           </ul>
         </details>
