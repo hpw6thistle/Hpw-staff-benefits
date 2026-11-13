@@ -219,7 +219,7 @@ body:has(#landing-view:not([hidden])) {
 .offer { display: grid; gap: 2px; }
 .offer-grade, .offer-scope { justify-self: start; color: var(--muted); font-size: .73rem; }
 .offer-grade { color: var(--gold-ink); font-weight: 800; border-bottom: 1px solid var(--gold); }
-.offer strong { color: var(--ink); font-size: .98rem; line-height: 1.5; }
+.offer strong { white-space: pre-line; color: var(--ink); font-size: .98rem; line-height: 1.5; }
 .meta { display: grid; gap: 3px; color: var(--muted); font-size: .8rem; }
 .meta p, .meta address { display: flex; gap: 6px; align-items: flex-start; font-style: normal; }
 .meta .icon { width: 14px; height: 14px; margin-top: 3px; }

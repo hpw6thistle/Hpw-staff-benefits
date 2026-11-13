@@ -5,10 +5,10 @@
  * grade：留空表示通用；有職級專屬優惠時複製同一門市列，沿用 id，填上「員工」或「主管」。
  * 同一 id 與 grade 的組合只能有一筆。選擇職級時，未到期的專屬優惠優先顯示。
  * category：餐飲美食／生活購物／旅遊住宿。
- * region：縣市全名，例如「台北市」；篩選器會從資料自動產生。
+ * region：縣市全名、全台或線上，例如「台北市」；篩選器會從資料自動產生。
  * owned：集團品牌填 true，外部合作商店填 false（不加引號）。
  * offer：主要優惠；expires：西元 YYYY-MM-DD；到期當日仍有效，空白代表未提供。
- * address：門市地址；phone：門市電話（可空白，請保留前面的 0）。
+ * address：門市地址（全台或線上方案可空白）；phone：門市電話（可空白，請保留前面的 0）。
  * website：官網網址，可留空。
  * notes：限制與使用方式；placeId：Google Maps Place ID（可留空）。
  * demo：範例填 true。確認優惠、公開授權與門市資訊後，正式資料填 false。
@@ -766,5 +766,149 @@ window.HAIPAWANG_STORES = [
     "demo": true,
     "grade": "",
     "website": ""
+  },
+  {
+    "id": "ST-UBER-001",
+    "name": "Uber / Uber Eats 企業員工福利專案",
+    "category": "生活購物",
+    "region": "線上",
+    "owned": false,
+    "offer": "提供符合資格員工一年免費 Uber One 會員資格。\n1. 符合資格的 Uber Eats 訂單享免運優惠。\n2. 搭乘 Uber 可享 5% 回饋（依企業方案通知）。\n3. 每季另享不定期加碼外送及乘車優惠。",
+    "expires": "",
+    "address": "",
+    "phone": "",
+    "notes": "適用所有符合資格的員工，會員開通後一年有效。回饋比例、適用訂單及加碼活動以企業方案開通通知為準。",
+    "placeId": "",
+    "demo": false,
+    "grade": "",
+    "website": "https://www.uber.com/tw/zh-tw/uber-one/"
+  },
+  {
+    "id": "ST-Travel-001",
+    "name": "易遊網 (ezTravel)",
+    "category": "旅遊住宿",
+    "region": "線上",
+    "owned": false,
+    "offer": "提供企業會員個人旅遊專屬優惠（如訂房、國內外旅遊、高鐵、機票等）",
+    "expires": "",
+    "address": "",
+    "phone": "02-412-8001",
+    "notes": "實際內容依易遊網提供之方案為準。客服專線 412-8001，手機請加 02。",
+    "placeId": "",
+    "demo": false,
+    "grade": "",
+    "website": "https://www.eztravel.com.tw/"
+  },
+  {
+    "id": "hpw2026043",
+    "name": "Bonchon 本村韓食炸雞（北車店）",
+    "category": "餐飲美食",
+    "region": "台北市",
+    "owned": false,
+    "offer": "結帳總金額 9 折起",
+    "expires": "2026-12-31",
+    "address": "台北市中正區北平西路3號2樓",
+    "phone": "02-2314-8066",
+    "notes": "結帳前請主動出示「公司員工識別證」。內用 10% 清潔費（服務費）將以「原價」計算。門市營業與優惠適用狀態，請於前往前致電確認。",
+    "placeId": "",
+    "demo": false,
+    "grade": "",
+    "website": "https://bonchon.tw/北部門市/"
+  },
+  {
+    "id": "hpw2026044",
+    "name": "Bonchon 本村韓食炸雞（重慶南店）",
+    "category": "餐飲美食",
+    "region": "台北市",
+    "owned": false,
+    "offer": "結帳總金額 9 折起",
+    "expires": "2026-12-31",
+    "address": "台北市中正區重慶南路一段121號",
+    "phone": "02-2311-0345",
+    "notes": "結帳前請主動出示「公司員工識別證」。內用 10% 清潔費（服務費）將以「原價」計算。",
+    "placeId": "",
+    "demo": false,
+    "grade": "",
+    "website": "https://bonchon.tw/北部門市/"
+  },
+  {
+    "id": "hpw2026045",
+    "name": "Bonchon 本村韓食炸雞（微風南山店）",
+    "category": "餐飲美食",
+    "region": "台北市",
+    "owned": false,
+    "offer": "結帳總金額 9 折起",
+    "expires": "2026-12-31",
+    "address": "台北市信義區松智路17號B2",
+    "phone": "02-2729-6729",
+    "notes": "結帳前請主動出示「公司員工識別證」。內用 10% 清潔費（服務費）將以「原價」計算。",
+    "placeId": "",
+    "demo": false,
+    "grade": "",
+    "website": "https://bonchon.tw/北部門市/"
+  },
+  {
+    "id": "hpw2026046",
+    "name": "Bonchon 本村韓食炸雞（台南新光小北店）",
+    "category": "餐飲美食",
+    "region": "台南市",
+    "owned": false,
+    "offer": "結帳總金額 9 折起",
+    "expires": "2026-12-31",
+    "address": "台南市北區西門路四段135號3樓",
+    "phone": "06-251-2698",
+    "notes": "結帳前請主動出示「公司員工識別證」。內用 10% 清潔費（服務費）將以「原價」計算。",
+    "placeId": "",
+    "demo": false,
+    "grade": "",
+    "website": "https://bonchon.tw/南部門市/"
+  },
+  {
+    "id": "hpw2026047",
+    "name": "Bonchon 本村韓食炸雞（中山店）",
+    "category": "餐飲美食",
+    "region": "台北市",
+    "owned": false,
+    "offer": "結帳總金額 9 折起",
+    "expires": "2026-12-31",
+    "address": "台北市中山區中山北路二段76號1樓",
+    "phone": "02-2563-1763",
+    "notes": "結帳前請主動出示「公司員工識別證」。",
+    "placeId": "",
+    "demo": false,
+    "grade": "",
+    "website": "https://bonchon.tw/北部門市/"
+  },
+  {
+    "id": "hpw2026048",
+    "name": "Bonchon 本村韓食炸雞（台中新光店）",
+    "category": "餐飲美食",
+    "region": "台中市",
+    "owned": false,
+    "offer": "結帳總金額 9 折起",
+    "expires": "2026-12-31",
+    "address": "台中市西屯區台灣大道三段301號12樓",
+    "phone": "04-2251-5882",
+    "notes": "結帳前請主動出示「公司員工識別證」。",
+    "placeId": "",
+    "demo": false,
+    "grade": "",
+    "website": "https://bonchon.tw/中部門市/"
+  },
+  {
+    "id": "hpw2026049",
+    "name": "Woosa 洋食鬆餅屋全台分店",
+    "category": "餐飲美食",
+    "region": "全台",
+    "owned": false,
+    "offer": "A套餐：湯品（附麵包）或 130 元內飲品（二選一）免費升級。\nB套餐：湯品（附麵包）或沙拉（二選一）＋130 元內飲品，100 元（原價 198 元）。\nC套餐：130 元內飲品＋360 元內任一鬆餅，200 元（原價 298 元）。",
+    "expires": "2027-12-31",
+    "address": "",
+    "phone": "",
+    "notes": "台北京站店暫不配合。僅限平日兌換。結帳時請主動出示員工識別證或名片，限本人使用，每張證件每次限升級一份。另收 10% 服務費，以原價計算。各分店地址及電話請見品牌連結。",
+    "placeId": "",
+    "demo": false,
+    "grade": "",
+    "website": "https://page.line.me/641prdiv"
   }
 ];

@@ -69,7 +69,7 @@
       const date = el("time", "", store.expires.replaceAll("-", "/"));
       date.dateTime = store.expires;
       expiry.append(el("span", "", expired ? "已到期" : "有效至"), date);
-    } else expiry.textContent = "有效期限請洽門市";
+    } else expiry.textContent = store.region === "線上" ? "有效期限依方案說明" : "有效期限請洽門市";
     return expiry;
   }
 
@@ -127,8 +127,10 @@
     }
     const meta = el("div", "meta");
     const address = el("address");
-    address.append(icon("pin"), store.address || "地址請洽門市");
-    meta.append(address);
+    if (store.address || !["全台", "線上"].includes(store.region)) {
+      address.append(icon("pin"), store.address || "地址請洽門市");
+      meta.append(address);
+    }
     const phone = String(store.phone || "").trim();
     if (phone) {
       const contact = el("p");
@@ -139,7 +141,7 @@
       meta.append(contact);
     }
 
-    body.append(meta);
+    if (meta.childElementCount) body.append(meta);
     const bottom = el("div", "card-bottom");
     const stub = el("div", "ticket-stub");
     const actions = el("div", "stub-row");
