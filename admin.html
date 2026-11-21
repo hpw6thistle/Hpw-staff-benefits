@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>資料維護｜海霸王員工福利站</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&amp;family=Noto+Sans+TC:wght@400..800&amp;display=swap">
+  <link rel="stylesheet" href="style.css?v=dark-proximity-1">
+  <script defer src="counties.js?v=1"></script>
+  <script defer src="data.js?v=counties-1"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+  <script defer src="admin.js?v=xlsx-1"></script>
+  <script src="theme.js?v=1"></script>
+</head>
+<body>
+  <header class="topbar"><div class="shell topbar-inner">
+    <a class="brand" href="index.html"><span class="brand-logo"><img src="assets/hpw-logo-official.png" alt="海霸王" width="192" height="74"></span><span class="brand-area">員工福利站</span></a>
+    <nav class="nav-links" aria-label="網站導覽"><button class="theme-toggle" id="theme-toggle" type="button" aria-label="切換深色模式">深色模式</button><a class="help" href="index.html#search">返回查詢</a></nav>
+  </div></header>
+  <main class="shell admin">
+    <h1>更新優惠資料</h1>
+    <p class="admin-intro">下載 Excel、修改優惠、上傳預覽，確認後交由公司發布。</p>
+    <noscript><p>請啟用 JavaScript。</p></noscript>
+    <ol class="admin-steps">
+      <li class="admin-step" aria-labelledby="export-title">
+        <h2 id="export-title">下載 Excel</h2>
+        <p>下載並編輯（.xlsx），請保留原有資料列。</p>
+        <div class="controls"><button type="button" id="export" class="primary">下載資料</button><button type="button" id="template" class="action">下載範本</button></div>
+        <details class="excel-help">
+          <summary>Excel 編輯須知</summary>
+          <ul>
+            <li>使用 .xlsx; 門市 ID、電話及日期請設為文字格式。</li>
+            <li>職級可留空，或填「員工／主管」。</li>
+            <li>標籤類別限「餐飲美食／旅遊住宿／生活購物」。</li>
+            <li>地區限 22 縣市；「全部地區」可留空。</li>
+            <li>「集團品牌／範例資料」請填「是／否」。</li>
+            <li>下架請改「上架狀態」，勿刪除原資料列。</li>
+          </ul>
+        </details>
+      </li>
+      <li class="admin-step" aria-labelledby="import-title">
+        <h2 id="import-title">上傳並預覽</h2>
+        <p id="csv-help">上傳檔案，立即檢查格式並預覽逐筆異動。檔案僅在瀏覽器處理。</p>
+        <label class="sr-only" for="csv">選擇 Excel 檔案</label>
+        <input type="file" id="csv" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" aria-describedby="csv-help">
+        <p id="import-status" role="status">尚未選取檔案</p>
+        <p id="change-summary" role="status" hidden></p>
+        <ul id="import-errors" class="error" aria-label="匯入錯誤" hidden></ul>
+        <details id="preview" open hidden>
+          <summary id="preview-label">逐筆異動預覽</summary>
+          <p id="diff-empty" hidden>沒有發現資料異動。</p>
+          <ul id="diff-list" class="diff-list" aria-label="逐筆異動"></ul>
+        </details>
+      </li>
+      <li class="admin-step" aria-labelledby="save-title">
+        <h2 id="save-title">確認並交付</h2>
+        <p>確認後下載更新檔，交由管理者審核並發佈；不會直接更新網站。</p>
+        <div class="controls"><button id="download" type="button" class="primary" disabled>下載更新檔</button><span id="save-status">請先上傳並確認異動</span></div>
+        <details class="excel-help"><summary>公司管理者：發布方式</summary><p>使用已啟用雙重驗證的 GitHub 帳號，建立分支更新 <code>data.js</code> 並提出 PR；審查及檢查通過後再合併至 main。</p></details>
+      </li>
+    </ol>
+  </main>
+</body>
+</html>
